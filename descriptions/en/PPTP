@@ -1,0 +1,4 @@
+PPTP is considered "experimental". I never tried the rules myself,
+since I use IPSec and not PPTP.
+They got contributed by a user for ipchains and I "ported" them to
+iptables.

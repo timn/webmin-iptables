@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 #
-#    IPchains Firewalling Webmin Module
-#    Copyright (C) 1999-2000 by Tim Niemueller
+#    IPtables Firewalling Webmin Module
+#    Copyright (C) 1999-2001 by Tim Niemueller <tim@niemueller.de>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -13,64 +13,61 @@
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #    GNU General Public License for more details.
 
-#    Created  : 10.10.1999
+#    Created  : 02.10.2001
 
 
-require "./ipchains-lib.pl";
+require "./iptables-lib.pl";
 
-if (! $access{'dchains'}) { &error($text{'delchain_err_acl'}) }
-if ($in{'chain'} eq "") { &error($text{'delchain_err_nochain'}) }
+&terror('dchain_err_acl') if (! $access{'drules'});
+&terror('dchain_err_notable') if (! $in{'table'});
+&terror('dchain_err_nochain') if (! $in{'chain'});
+
+@config=&parse_config();
+
+my @chains=&get_by_type('CHAIN', \@config);
+my @rules=&get_by_type('RULE', \@config);
 
 
-@ps=&parse_script();
+foreach my $c (@chains) {
+  if ( ($c->{'values'}->[0] eq $in{'table'}) &&
+       ($c->{'values'}->[1] eq $in{'chain'}) ) {
+    # We found the chain we want to delete
+    my @del=();
+    for (my $i=0; $i < scalar(@rules); $i++) {
+      if ( ($rules[$i]->{'values'}->[0] eq $in{'table'}) &&
+           ($rules[$i]->{'values'}->[1] eq $in{'chain'}) ) {
+        # we have to delete this rule, it belongs to the chain
+        push(@del, $rules[$i]->{'line'});
+      }
+    }
 
-$chains=&find_arg_struct('-N', \@ps);
+    # OK, delete the rules and the chain, reverse sort the
+    # array of line numbers so that we delete from end to begin
+    # to avoid problems (line number would change, if you delete
+    # an earlier line...).
+    push(@del, $c->{'line'});
+    @del = reverse sort @del;
 
-foreach $l (@{$chains}) {
- local($c);
- $c=&find_arg('-N', $l);
- if ($c->{'value'} eq $in{'chain'}) {
-  $line=$c->{'line'};
- }
+    my $file = &read_file_lines($config{'conffile'});
+    foreach my $d (@del) {
+      splice(@$file, $d, 1);
+    }
+    &flush_file_lines();
+  }
 }
-if (!$line) { &error(&text('delchain_err_notfound', $in{'chain'})) }
 
-$lines=&read_file_lines($config{'scriptfile'});
-splice(@{$lines}, $line, 1);
+@config=&parse_config();
+my $file = &read_file_lines($config{'conffile'});
+
+@rules=&get_by_type('RULE', \@config);
+
+foreach my $r (@rules) {
+  if ($r->{'values'}->[38] eq $in{'chain'}) {
+    $r->{'values'}->[38] = 'ACCEPT';
+    $file->[$r->{'line'}] = &generate_line(@{$r->{'values'}});
+  }
+}
 &flush_file_lines();
-
-@ps=&parse_script();
-$chainrules=&find_chain_struct($in{'chain'}, \@ps);
-
-while (@{$chainrules}) {
- local($r, $cr);
- $cr=$chainrules->[0];
- $r=&find_arg("-A", $cr);
- $r || ($r=&find_arg('-I', $cr));
- splice(@{$lines}, $r->{'line'}, 1);
- &flush_file_lines();
-} continue {
- @ps=&parse_script();
- $chainrules=&find_chain_struct($in{'chain'}, \@ps);
-}
-
-&flush_file_lines;
-
-@ps=&parse_script();
-$jc=&find_jump_struct($in{'chain'}, \@ps);
-
-while (@{$jc}) {
- local($r);
- $r=&find_arg("-j", $jc->[0]);
- $lines->[$r->{'line'}] = &rm_jump($jc->[0]);
- &flush_file_lines();
-} continue {
- @ps=&parse_script();
- $jc=&find_jump_struct($in{'chain'}, \@ps);
-}
-
-
-&flush_file_lines;
 
 &redirect("");
 

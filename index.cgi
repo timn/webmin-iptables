@@ -253,7 +253,7 @@ if (! $config{'conffile'}) {
 			print "<td valign=top $tb>", $usercol ? "<br>" :
 			  "<img src=/images/lc1.gif alt=\"\">","</td>\n";
 			print "<td $tb>&nbsp;",
-			      "<a href=/?tab=$i><b>",
+			      "<a href=?mode=template&tab=$i><b>",
 			      $combs[$i]->{'left'}->{'values'}->[0], " -> ", $combs[$i]->{'right'}->{'values'}->[0],
             "</b></a>&nbsp;</td>\n";
 			print "<td valign=top $tb>", $usercol ? "<br>" :
@@ -375,6 +375,14 @@ if (! $config{'conffile'}) {
   print "</TABLE><BR>",
         "$text{'index_chkbx_desc'}<BR><BR>\n";
 
+
+  print "<INPUT TYPE=checkbox VALUE=1 NAME=ignin>",       
+        "$text{'index_tmpl_igninnic'} ",
+        "(<A onClick='window.open(\"show_desc.cgi?ruleset=IgnoreInsideNIC\", \"help\", ".
+        "\"toolbar=no,menubar=no,scrollbars=yes,width=500,height=300,",
+        "resizable=yes\"); return false' href=\"show_desc.cgi?ruleset=IgnoreInsideNIC\">",
+        "$text{'index_desc'}</A>)<BR>\n";
+
   if ($combs[$index]->{'right'}->{'values'}->[1] eq 'internet') {
     print "<INPUT TYPE=checkbox VALUE=1 NAME=masq ",
           ($masq) ? "CHECKED" : "",
@@ -382,13 +390,15 @@ if (! $config{'conffile'}) {
           "(<A onClick='window.open(\"show_desc.cgi?ruleset=Masquerading\", \"help\", ".
           "\"toolbar=no,menubar=no,scrollbars=yes,width=500,height=300,",
           "resizable=yes\"); return false' href=\"show_desc.cgi?ruleset=Masquerading\">",
-          "$text{'index_desc'}</A>)<BR><BR>\n",
-          "<INPUT TYPE=submit NAME=save VALUE=\"$text{'save'}\">",
-          "</FORM>\n",
-          "<DIV ALIGN=right><FONT FACE=\"Arial,helvetica\" COLOR=\"#505050\">",
-          "[ $version ] </FONT></DIV>\n",
-          "<HR>\n";
+          "$text{'index_desc'}</A>)<BR><BR>\n";
   }
+  
+  print "<INPUT TYPE=submit NAME=save VALUE=\"$text{'save'}\">",
+        "</FORM>\n",
+        "<DIV ALIGN=right><FONT FACE=\"Arial,helvetica\" COLOR=\"#505050\">",
+        "[ $version ] </FONT></DIV>\n",
+        "<HR>\n";
+
   if ($config{'mode'} == 1) {
     # called from newbie mode, so return there
     &footer("", $text{'index_nbreturn'});

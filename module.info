@@ -4,5 +4,5 @@ desc_de=IPtables Firewall
 desc_zh_CN=IPtables·À»ðÇ½
 desc_pl=Firewall IPtables
 category=net
-os_support=redhat-linux debian-linux slackware-linux suse-linux open-linux corel-linux turbo-linux lfs-linux cobalt-linux rocksolid-linux
-depends=0.83
+os_support=redhat-linux debian-linux slackware-linux suse-linux open-linux corel-linux turbo-linux lfs-linux cobalt-linux rocksolid-linux mandrake-linux
+depends=0.88

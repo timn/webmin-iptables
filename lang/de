@@ -1,0 +1,317 @@
+
+lang=de
+author=Tim Niemueller <tim@niemueller.de>
+homepage=http://www.niemueller.de
+copyright=(C) 2001 by Tim Niemueller <tim@niemueller.de>
+license=GPL
+
+config_link=&Uuml;berpr&uuml;fen Sie die <A HREF=/config.cgi?iptables>Modulkonfiguration</A>
+
+index_title=IPtables Firewall
+
+index_cfnotdef=Konfigurationsdatei nicht definiert
+index_desc_cfdef=Die Konfigurationsdatei ist noch nicht definiert. Dies ist die Datei, wo die Informationen &uuml;ber Ihre Firewall-Einstellungen gespeichert werden. Ein sinnvoller Ort und Name w&auml;re z.B. /etc/iptfw.conf.
+index_conffile=Pfad der Konfigurationsdatei
+index_devnotdef=Noch keine Netzwerkger&auml;te definiert
+index_fwfile=Das Firewall-Skript wurde noch nicht kopiert
+index_desc_devdef=Sie haben noch nicht angegeben,um welche Art von Schnittstelle es sich bei den einzelnen Ger&auml;ten handelt. Legen Sie jetzt fest, welche Aufgabe jeder Schnittstelle zukommt. Sie m&uuml;ssen mindestens eine interne und eine externe (Internet-) Schnittstelle angeben. Im Einzelnen bedeuten diese Typen:
+index_desc_internal=<B>Interne</B> Schnittstelle ist diejenige, die den Firewall mit dem LAN verbindet.
+index_desc_external=Eine <B>externe</B> Schnittstelle verbindet den Firewall mit einem Netzwerk, das einen zweifelhaften Sicherheitsstatus aufweist.
+index_desc_dmz=<B>DMZ</B>, <I>D</I>e<I>m</I>ilitarisierte <I>Z</I>one. Dies ist ein Teil Ihres internen LANs, der sich vor dem Firewall befindet und somit nicht von Ihm gesch&uuml;tzt wird. Normalerweise werden hier Web- oder Mailserver etc. eingebunden, um die Netzwerklast ins LAN gering zu halten. F&uuml;r diese Zone gelten spezielle Regeln, so dass man beispielsweise den Zugriff vom LAN dorthin erlauben kann.
+index_desc_internet=<B>Internet</B>, ein Netzwerk mit fester oder dynamischer IP. Dieses Netzwerk ist immer als Sicherheitsrisiko einzustufen.
+index_desc_vpn=<B>Virtuelles Privates Netzwerk</B>: Ein verschl&uuml;sselter Netzwerk-Tunnel zu einem anderen Netz. Im Prinzip ein speziell geroutetes externes Netz, das von der Firewall wie ein gew&ouml;hnliches externes Netz behandelt wird.
+index_desc_ignore=<B>Ignorieren</B>: Diese Schnittstelle wird von der Firewall nicht beachtet und somit auch nicht gesichert.
+index_desc_fwfile=Das Generator-Skript firewall.pl wurde noch nicht in das Boot-Verzeichnis des Systems kopiert. Dies ist notwendig, um die Firewall-Reglen aus der Konfigurationsdatei auszuf&uuml;hren.
+index_copyfwfile=Skript kopieren
+index_internal=Intern
+index_external=Extern
+index_dmz=DMZ
+index_internet=Internet
+index_vpn=Virtuelles Privates Netzwerk
+index_ignore=Ignorieren
+index_ifnotdef=Netzwerk-Schnittstellen nicht erkannt
+index_desc_ifdef=Die Netzwerk-Schnittstellen Ihres Systems konnten nicht erkannt werden. Hierf&uuml;r muss das Netzwerk-Modul installiert sein und Ihre Bertriessystem-Version unterst&uuml;tzen. Sie k&ouml;nnen unten eine durch Komma getrennte Liste aller Schnittstellen eingeben (z.B. "eth0,eth1,ippp0").
+
+index_short_fw=FW
+index_short_internal=Intern
+index_short_external=Extern
+index_short_internet=Internet
+index_short_dmz=DMZ
+index_short_vpn=VPN
+
+index_router=Router Firewall
+index_personal=Personal Firewall
+index_customize=Anpassen...
+index_customlevel=Sie benutzen einen angepassten Firewall
+index_default=Auf Default-Stufe umschalten...
+
+index_templname=Name
+index_desc=Beschreibung
+index_activate=Aktivieren
+index_tmpl_masq=NAT aktivieren
+index_novalcombs=Keine g&uuml;ltigen Schnittstellen-Kombinationen f&uuml;r den Vorlagen-Modus.
+
+index_filter=Filter-Tabelle
+index_nat=NAT-Tabelle
+index_udef_filter=Benutzerdefinierte Ketten in Filter-Tabelle
+index_udef_nat=Benutzerdefinierte Ketten in NAT-Tabelle
+index_std_filter=Vordefinierte Ketten in Filter-Tabelle
+index_std_nat=Vordefinierte Ketten in NAT-Tabelle
+
+index_standpol=Standard-Verhalten (default policy)
+index_noudef=Keine benutzerdefinierten Ketten gefunden
+
+index_chaincreate=Neue Kette erzeugen
+index_list=Hosts/Netze auflisten
+index_scriptman=Skriptverwaltung
+index_import=Aktuelle Einstellungen importieren
+index_rawedit=Konfigurationsdatei manuell bearbeiten
+index_exec=Konfiguration aktivieren
+
+index_nbreturn=Anf&auml;ngermodus
+index_return=Webmin-Index
+
+target_ACCEPT=ACCEPT
+target_DROP=DROP
+
+chain_INPUT=Input
+chain_OUTPUT=Output
+chain_FORWARD=Forward
+chain_PREROUTING=Pre-Routing
+chain_POSTROUTING=Post-Routing
+
+lib_err_nosupport=Entweder existiert das /proc-Dateisystem nicht oder iptables wird nicht von Ihrem Kernel unterst&uuml;tzt.
+lib_err_sfcm=Sie haben keine Skript-Datei angegeben. Diese wird ben&ouml;tigt, um die Regeln aller Ketten zu speichern. $1
+lib_err_sfmiss=Die Skript-Datei, die Sie in der <A HREF=../config.cgi?iptables>Modul-Konfiguration</A> angegeben haben, ist nicht vorhanden. Sie m&uuml;ssen diese Datei zun&auml;chst erstellen. Dies ist kein Fehler, sondern ein notwendiger Konfigurationsschritt.
+lib_noinit=Konnte Ihr init-Verzeichnis nicht finden. Bitte stellen Sie es manuell ein. $1
+lib_needmodernperl=Dieses Modul ben&ouml;tigt eine neuere Perl-Version (mindestens $1). Bitte erneuern Sie Ihre Perl-Installation.
+lib_err_netmod=Kann Netzwerk-Schnittstellen nicht erkennen. Bitte in $1 setzen.
+lib_parseerror=Syntaxfehler in der Konfigurationsdatei in Zeile $1
+lib_any=Beliebig
+lib_anydev=Beliebiges Ger&auml;t
+lib_icmptsel=ICMP-Typauswahl
+lib_err_iptables=Datei $1 ist nicht vorhanden oder nicht ausf&uuml;hrbar. $2
+lib_tosnotset=Nicht vorhanden (0x00)
+lib_tosmindel=Minimale Verz&ouml;gerung (0x10)
+lib_tosmaxthr=Maximaler Durchsatz (0x08)
+lib_tosmaxrel=Maximale Zuverl&auml;ssigkeit (0x04)
+lib_tosmincost=Minimale Kosten (0x02)
+lib_ignore=Ignorieren
+lib_err_create=Kann Datei $1 nicht erzeugen!
+lib_err_host=Host-Datei $1 existiert nicht.
+lib_err_nolevelfile=Keine Definitionsdatei f&uuml;r diese Sicherheitsstufe vorhanden.
+Sorry, there is no definition file for this security level.
+lib_err_ndeffwtype=Der Firewall-Typ $1 ist nicht auf Stufe $2 definiert.
+lib_err_notemplfile=Keine Vorlage f&uuml;r dieses Protokoll vorhanden.
+
+clev_title=Sicherheitsstufe
+clev_err_wrong=Die gew&auml;hlte Sicherheitsstufe ist nicht verf&uuml;gbar.
+clev_heading=Sicherheitsstufe f&uuml;r $1 &auml;ndern
+clev_desc_low=Hiermit &auml;ndern Sie Ihre Sicherheitsstufe auf  <FONT COLOR=#FF0000>niedrig</FONT>.
+clev_desc_medium=Hiermit &auml;ndern Sie Ihre Sicherheitsstufe auf  <FONT COLOR=#FF0000>mittel</FONT>.
+clev_desc_high=Hiermit &auml;ndern Sie Ihre Sicherheitsstufe auf  <FONT COLOR=#FF0000>hoch</FONT>.
+clev_desc_disabled=Hiermit schalten Sie dieses Firewall-Modul aus. Alle Pakete k&ouml;nnen den Firewall ungehindert passieren. Bei eingeschaltetem Forwarding werden die Pakete ohne Filterung weitergereicht.
+clev_desc_full=Dies ist der ultimative Firewall. Nichts kann ihn passieren, alle Pakete werden sofort verworfen. Nur n&uuml;tzlich, falls Sie Ihr System aufgrund eines bekannten Sicherheitsproblems sch&uuml;tzen wollen.
+
+clev_prot=Protokoll
+clev_dirs=Zugelassene Verzeichnisse
+clev_nocons=In dieser Sicherheitsstufe sind keine externen Verbindungen zugelassen (Nur Loopback-Verbindungen).
+clev_disabled_masq=NAT-Unterst&uuml;tzung ist im "DISABLED"-Modus nicht verf&uuml;gbar.
+clev_low_masq=<INPUT TYPE=checkbox NAME=masq VALUE=1 CHECKED> NAT von internen LANs ins Internet aktivieren
+clev_medium_masq=<INPUT TYPE=checkbox NAME=masq VALUE=1> NAT von internen LANs ins Internet aktivieren
+clev_high_masq=<INPUT TYPE=checkbox NAME=masq VALUE=1> NAT von internen LANs ins Internet aktivieren
+clev_full_masq=NAT-Unterst&uuml;tzung ist in der h&ouml;chsten Sicherheitsstufe nicht verf&uuml;gbar.
+clev_enable=Firewall-Konfiguration sofort aktivieren. Bitte nicht benutzen, wenn Sie diese Konfiguration das erste Mal auf einem Remote-System verwenden, da Ihnen im Fehlerfall der Zugriff von Aussen verwehrt bleibt!
+clev_change=Ja, Sicherheitsstufe &auml;ndern
+clev_return=Auswahl der Sicherheitsstufe
+clev_err_write=Fehler beim Erzeugen der Skriptdatei!
+
+echain_title=Kette bearbeiten
+
+echain_standpol=Standard-Verhalten (default policy)
+echain_spchange=&Auml;ndern
+
+echain_source=Quelle
+echain_port=Anschluss
+echain_dest=Ziel
+echain_proto=Protokoll
+echain_inif=Eingangsschnittstelle
+echain_outif=Ausgangsschnittstelle
+echain_target=Ziel
+echain_action=Aktion
+echain_norules=Keine Reglen f&uuml;r diese Kette gefunden.
+echain_any=Beliebig
+echain_edit=Bearbeiten
+echain_disable=Deaktivieren
+echain_enable=Aktivieren
+echain_delete=L&ouml;schen
+echain_clone=Klonen
+echain_insert=Regel dahinter einf&uuml;gen
+echain_up=Hoch
+echain_down=Runter
+echain_newrule=Neue Regel einf&uuml;gen
+echain_return=Modul-Index
+
+erule_title_edit=Regel bearbeiten
+erule_title_append=Regel hinzuf&uuml;gen
+erule_title_insert=Regel einf&uuml;gen
+erule_desc_edit=Regel von Kette '$1' bearbeiten (Tabelle '$2')
+erule_desc_create=Neue Regel an Kette '$1' anf&uuml;gen (Tabelle '$2')
+erule_desc_insert=Neue Regel zu Kette '$1' hinzuf&uuml;gen (Tabelle '$2')
+erule_source=Quelle
+erule_dest=Ziel
+erule_proto=Protokoll
+erule_iface=Schnittstelle
+erule_hostnet=Host/Netzwerk
+erule_target=Aktion
+erule_nojump=Kein Sprung
+erule_port=Anschluss
+erule_flags=Optionen
+erule_icmptype=ICMP-Typ (nur f&uuml;r Protokolltyp ICMP)
+erule_tos=TOS
+erule_syn=SYN-Bit
+erule_insyn=Inverses SYN-Bit
+erule_frag=Fragment
+erule_infrag=Inverses Fragment
+erule_log=Packet protokollieren
+erule_reset=Zur&uuml;cksetzen
+erule_save=Regel speichern
+erule_insert=Regel einf&uuml;gen
+erule_append=Regel hinzuf&uuml;gen
+erule_return=Kette <I>'$2'</I> in Tabelle <I>'$1'</I> bearbeiten
+erule_incoming=Eingehend
+erule_outgoing=Ausgehend
+erule_basic=Basisinformationen
+erule_extended=Erweiterte Informationen
+erule_fragment=Fragmentierung
+erule_macsource=MAC-Quelle
+erule_tcpflags=TCP-Flags
+erule_setflags=Gesetzt
+erule_unsetflags=Nicht gesetzt
+erule_tcpf_all=Alle
+erule_tcpf_none=Keine
+erule_tcpf_selected=Gew&auml;hlte
+erule_limit=Limits
+erule_limitrate=Limit-Rate
+erule_limitburst=Burst Limit
+erule_limitrateperiod_second=Sekunde
+erule_limitrateperiod_minute=Minute
+erule_limitrateperiod_hour=Stunde
+erule_limitrateperiod_day=Tag
+erule_uid=Benutzer-ID (UID)
+erule_gid=Gruppen-ID (GID)
+erule_pid=Prozess-ID (PID)
+erule_sid=Session-ID (SID)
+erule_mark_valuemask=Wert / Maske
+erule_state=Zustand
+erule_mark=Markierung
+erule_owner=Eigent&uuml;mer beachten
+erule_logging=Paket-Protokollierung
+erule_logwarn=Hinweis: Wenn die Protokollierung aktiv ist, ist die Aktion immer 'LOG'!
+erule_loglevel=Log-Level
+erule_logprefix=Pr&auml;fix
+erule_extendedlog=Erweiterte Protokolloptionen
+erule_log_tcpseq=TCP-Sequenz
+erule_log_tcpopt=TCP-Optionen
+erule_log_ipopt=IP-Optionen
+erule_dolog=Protokollieren?
+erule_modtar=Paket-&Auml;nderung und Aktion
+erule_setmark=Markierung setzen
+erule_na=N/A
+erule_settos=TOS setzen
+erule_rejtype=Ablehnen mit ICMP-Typ
+erule_err_invstatus=Ung&uuml;ltiger Status. Muss JA oder NEIN sein!
+erule_=
+erule_=
+
+srule_error=Fehler beim Speichern der Regel
+srule_err_acl=Sie sind nicht berechtigt, Regeln zu erstellen.
+srule_err_acl2=Sie sind nicht berechtigt, Regeln zu bearbeiten.
+srule_err_notable=Keine Tabelle zur Bearbeitung angegeben!
+srule_err_nochain=Keine Kette zur Bearbeitung angegeben!
+srule_portproto=Wenn Sie eine Anschlussnummer als Quelle oder Ziel angeben, muss als Protokoll TCP oder UDP gew&auml;hlt werden!
+srule_invport=Der Quell- oder Zielanschluss ist ung&uuml;tig. Benutzen Sie entweder eine g&uuml;ltige Nummer oder einen bekannten Dienst (zu finden in der Dienste-Konfigurationsdatei Ihres Systems).
+srule_invproto=Das angegebene Protokoll ist nicht in der Liste der bekannten Protokolle.
+srule_icmptype=Der angegebne ICMP-Typ ist nicht bekannt.
+srule_invdev=Eine der angegebenen Schnittstellen ist ung&uuml;ltig, dh. nicht in der Konfigurationsdatei eingetragen.
+
+cpol_title=Standard-Verhalten (default policy) &auml;ndern
+cpol_err_builtin=Standard-Verhalten kann nur f&uuml;r die vorgegebenen Ketten ge&auml;ndert werden.
+cpol_pol=Standard-Verhalten f&uuml;r Kette <I>'$1'</I> in Tabelle <I>'$2'</I>
+cpol_return=Kette <I>'$1'</I> in Tabelle <I>'$2'</I> bearbeiten
+
+spol_invch=Standard-Verhalten kann nur f&uuml;r die vorgegebenen Ketten ge&auml;ndert werden.
+
+mrule_err_norule=Keine zu bearbeitende Regel!
+mrule_err_nochain=Keine zu bearbeitende Kette!
+mrule_err_notable=Keine zu bearbeitende Tabelle!
+mrule_err_acl=Sie haben nicht die Berechtigung, Regeln zu verschieben.
+mrule_err_invdir=Fehlende oder ung&uuml;ltige Richtung (Sie m&uuml;ssen 'hoch' oder 'runter' angeben)
+mrule_err_top=Diese Regel kann nicht nach <I>oben</I> verschoben werden, da sie sich schon an erster Stelle dieser Kette befindet.
+mrule_err_last=Diese Regel kann nicht nach <I>unten</I> verschoben werden, da sie sich schon an letzter Stelle dieser Kette befindet.
+mrule_err_line=Die Zeilennummer dieser Regel kann nicht ermittelt werden. Sie ist wahrscheinlich fehlerhaft (Fehlercode $1).
+mrule_crit_noidx=Achtung: Die Regel befindet sich nicht in der aktuellen Tabelle oder Kette! Aktion wird abgebrochen.
+mrule_err_acl=Sie sind nicht berechtigt, Regeln zu bearbeiten.
+
+crule_err_norule=Keine zu klonende Regel!
+crule_err_nochain=Keine zu klonende Kette!
+crule_err_notable=Keine zu klonende Tabelle!
+crule_err_acl=Sie sind nicht berechtigt, Regeln zu klonen.
+
+drule_err_norule=Keine zu l&ouml;schende Regel!
+drule_err_nochain=Keine zu l&ouml;schende Kette!
+drule_err_notable=Keine zu l&ouml;schende Tabelle!
+drule_err_acl=Sie sind nicht berechtigt, Regeln zu l&ouml;schen.
+
+chain_title=Kette erstellen
+cchain_err_nochain=Keine zu erstellende Kette angegeben!
+cchain_err_acl=Sie sind nicht berechtigt, Ketten zu erstellen.
+cchain_err_already=Die Kette '$1' ist bereits in der Tabelle '$2' vorhanden!
+cchain_table=Tabelle
+cchain_name=Name
+cchain_createbut=Erstellen
+cchain_heading=Neue Kette erstellen
+cchain_return=Modul-Index
+
+rawedit_title=Konfigurationsdatei bearbeiten
+rawedit_index=Konfigurationsdatei bearbeiten
+rawedit_undo=&Auml;nderungen r&uuml;ckg&auml;ngig machen
+rawedit_desc=Benutzen Sie das untenstehende Eingabefeld, um die Konfigurationsdatei zu bearbeiten.
+rawedit_return=Modul-Index
+
+lhosts_title=Hosts anzeigen
+lhosts_etc=Hosts aus /etc/hosts
+lhosts_names=Name(n)
+lhosts_edit=Bearbeiten
+lhosts_delete=L&ouml;schen
+lhosts_nud=Keine benutzerdefinierten Hosts gefunden
+lhosts_add=Neuen Host/Neues Netzwerk hinzuf&uuml;gen
+lhosts_ip=IP
+lhosts_names2=Namen
+lhosts_but_create=Erstellen
+lhosts_usrdef=Benutzerdefinierte Hosts/Netze
+lhosts_return=Modul-Index
+
+shost_err_invip=Ung&uuml;ltige IP
+shost_err_invnetmask=Ung&uuml;ltige Netzmaske
+shost_err_invname=Ung&uul;tiger Name
+shost_err_nohost=Host nicht vorhanden
+shost_err_acl=Sie sind nicht berechtigt, Hosts zu bearbeiten.
+shost_err_acl2=Sie sind nicht berechtigt, Hosts zu erstellen.
+
+ehost_err_nohost=Kein zu bearbeitender Host angegeben
+ehost_err_nodb=Host dbase nicht gefunden
+ehost_err_notfound=Host '$1' nicht gefunden.
+ehost_err_acl=Sie sind nicht berechtigt, Hosts zu bearbeiten.
+ehost_title=Host bearbeiten
+ehost_header=Host/Netzwerk bearbeiten
+ehost_names=Namen
+ehost_ip=IP
+ehost_save=Speichern
+ehost_return=Host-Liste
+
+desc_title=Beschreibung
+desc_err_notfound=Keine Beschreibung f&uuml;r die angegebenenen Regeln.
+desc_close=Schliessen
+
+stm_err_invcomb=Ung&uuml;ltige Schnittstellen-Kombination.

@@ -50,6 +50,8 @@ index_desc=Description
 index_activate=Activate
 index_tmpl_masq=Enable Masquerading support
 index_novalcombs=No valid interface combinations for template mode.
+index_tmpl_igninnic=Ignore inside NIC
+index_tmpl_ignoutnic=Ignore outside NIC
 
 index_filter=Filter Table
 index_nat=NAT Table
@@ -316,3 +318,7 @@ desc_err_notfound=No description for the given ruleset.
 desc_close=Close
 
 stm_err_invcomb=Invalid device combination given.
+
+dchain_err_nochain=No chain to delete!
+dchain_err_notable=No table to delete!
+dchain_err_acl=You are not allowed to delete chains.

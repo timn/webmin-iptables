@@ -1,0 +1,16 @@
+To ignore the inside nic means that the rule will not
+check for inside network interface.
+This may be handy if you have two interfaces and one
+subnet includes the other and you want the included subnet
+to be able to access the IPs in the bigger network. An example:
+I have a private network 192.168.1.0/24. I also have a second
+NIC for my notebook 192.168.1.252/30. Now I would have to
+have rules for both networks. But then the notebook would
+only be able to reach my server through its IP 192.168.1.254.
+But the nameserver entries all point to 192.168.1.1 but these
+would not be allowed by any of the rules since the interface
+is being checked (192.168.1.0/24 would match, but the interface
+is wrong). So we just ignore the outside interface and everything
+is fine. This makes firewalling under some circumstances a little
+bit hazy and may open holes so be careful, but in some situations
+(as the described one) you just need it...

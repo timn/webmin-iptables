@@ -1,0 +1,9 @@
+mode=Modus,1,1-Neuling,2-Vorlagen,3-Experte
+fwtype=Firewall-Typ,1,router-Router,personal-Personal
+conffile=Pfad und Name der Konfigurationsdatei,0
+intdev=LAN-Interfaces für Vorlagen-Modus,0
+bootloc=Pfad der Boot- und Shutdown-Skripten,3,Aus dem System-Start und -Stop-Modul
+iptables_path=Pfad von iptables,3,Default (/sbin/iptables)
+proto_file=Name der Protokoll-Liste,3,Default (/etc/protocols)
+hostsfile=Name der Hosts-Datei,3,Default (/etc/hosts)
+netifaces=Netzwerk-Schnittstellen (durch Komma getrennt),3,Netzwerk-Modul zur Erkennung benutzen

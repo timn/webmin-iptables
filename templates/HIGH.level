@@ -3,9 +3,9 @@ router {
   filter::INPUT => DROP
   filter::OUTPUT => DROP
   filter::FORWARD => DROP
-  nat::PREROUTING => DROP
-  nat::POSTROUTING => DROP
-  nat::OUTPUT => DROP
+  nat::PREROUTING => ACCEPT
+  nat::POSTROUTING => ACCEPT
+  nat::OUTPUT => ACCEPT
  }
 
  DNS => [infw, inout, outfw, fwin, fwout]

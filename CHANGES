@@ -160,7 +160,41 @@
                the module. I just have to get it out!
                Thank you to Joe Cooper (Swell Technologies) for sponsoring the
                development of this module!
-
+ 02.10.2001  - Updated to Webmin 0.88
+             - Added code to ignore NIC aliases
+             - Policies are now written in create_basic_conf. Policies for nat
+               are set to ACCEPT explicitly since we filter in filter table
+               and not in the nat table by definition...
+             - Policies for nat table in level templates (newbie mode) are
+               now set to ACCEPT, reason see above
+             - added kernelmodule ip_nat_ftp to FTP template for masquerading
+             - added new option "Ignore inside NIC", see its description
+             - fixed NFS template, type should be system and not eval...
+               additionaly the path to rpcinfo was wrong, fixed, that is just
+               crying for bugs when people have their rpcinfo at another place...
+             - Removed bug in firewall.pl, lines were counted wron on COND-MULTI.
+             - Tweaked NFS a lot, allowed access to mountd, lockd, statd over
+               TCP and UDP. Access to nfsd does not control client ports, since
+               some implementations use port > 1023, other < 1024... Got my
+               freaky network configuration to work with NFS :-)
+             - Fixed small bug in iptables that I introduced today, ACCPET...
+             - Finally converted delete_chain.cgi, nearly two year after
+               writing it for the IPchains module...
+ 17.10.2001  - Added chkconfig support to firewall.pl
+             - Added T:<DEST> Prefix to firewall.pl to create some kind of
+               dependencies between flags and target.
+             - Added German translation. Thanks for this contribution to
+               Markus Tulner <mtulner at gmx dot de>.
+             - Added experimental (!) PPTP ruleset contributed by
+               Leo Toria <leo at kaejae-worx dot com> (originally for the
+               IPchains Module :-)
+             - Fixed bug that caused the Submit button not to be shown on the
+               bottom in template mode. Wrong if statement caused the button
+               only to be displayed if at least on interface was of type
+               "internet". That was a pretty dumb one :-)
+             - Added Mandrake to list of supported OS (was a bug that it was
+               no in there already).
+             - Webmin 0.88 is now needed to limit possible problems.
  
  To do
  ==============================================================================

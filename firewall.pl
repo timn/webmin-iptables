@@ -20,10 +20,16 @@
 #                 executes firewall rules that are in the config file.
 #                 It "translates" the conf entries into real rules.
 
+# chkconfig: 345 50 50
+# description: Firewall Wrapper from the IPtables Firewall Webmin Module
+# processname: none
+# configfile: see below
+# pidfile: none
+
 # Define where to find config file and iptables.
 my $conffile = '/etc/iptfw.conf';
-my $iptables = '/sbin/iptables';
-my $ifconfig = '/sbin/ifconfig';
+my $iptables = 'LANG=C /sbin/iptables';
+my $ifconfig = 'LANG=C /sbin/ifconfig';
 my $insmod   = '/sbin/insmod';
 my $modprobe = '/sbin/modprobe';
 
@@ -45,6 +51,7 @@ for (my $i=0; $i < scalar(@c); $i++) {
     } else {
       # we flush all chains in all tables
       push(@e, "$iptables -F");
+      push(@e, "$iptables -t nat -F");
     }
   } elsif ($c[$i]->{'name'} eq 'DELCHAIN') {
     if (scalar(@{$c[$i]->{'values'}})) {
@@ -56,6 +63,7 @@ for (my $i=0; $i < scalar(@c); $i++) {
     } else {
       # we flush all chains in all tables
       push(@e, "$iptables -X");
+      push(@e, "$iptables -t nat -X");
     } 
   } elsif ($c[$i]->{'name'} eq 'INTERFACE') {
     # Initialize an interface
@@ -113,7 +121,7 @@ for (my $i=0; $i < scalar(@c); $i++) {
       for (my $n = $i; $n < $i+$count; $n++) {
         push(@rules, $c[$n]);
       }
-      $i += $count;
+      $i += $count-1;     # -1 since we incremented some lines above
     }
 
     for (keys %conds) {
@@ -155,16 +163,16 @@ if ($DEBUG) {
 } else {
   # execute "@e"
   foreach $c (@e) {
-    print "$c\n";
+    # print "$c\n";
     system($c);
   }
 }
 
-#################################################################################
-#################################################################################
+################################################################################
+################################################################################
 ## Subs
-#################################################################################
-#################################################################################
+################################################################################
+################################################################################
 
 # parse_config()
 # parses the config file and returns an array.
@@ -209,6 +217,7 @@ sub generate_rule {
 
   my @values = @{$_[0]};
   my $rv=$iptables;
+  my $endterm = "";
 
   # Define what to prepend to the values in the order
   # as defined in the CONF file. Just to fit my lazyness :-)
@@ -227,12 +236,12 @@ sub generate_rule {
                 "-m owner --sid-owner", "-m owner --pid-owner",
                 "R-m state --state", "",
                 "-m tos --tos",
-                "--log-level", "--log-prefix",
-                "--log-tcp-sequence", "--log-tcp-options",
-                "--log-ip-options",
+                "T:LOG--log-level", "T:LOG--log-prefix",
+                "T:LOG--log-tcp-sequence", "T:LOG--log-tcp-options",
+                "T:LOG--log-ip-options",
                 "--set-mark", "--reject-type", "--set-tos",
-                "--to-source", "--to-destination",
-                "--to-ports", "--to-ports",
+                "T:SNAT--to-source", "T:DNAT--to-destination",
+                "T:MASQUERADE--to-ports", "T:REDIRECT--to-ports",
                 "B--syn", "-j"
                );
 
@@ -261,12 +270,23 @@ sub generate_rule {
         my $f = $1;
         $values[$n] =~ s/:/,/g;
         $rv .= " $f $values[$n]";
+      } elsif ($fields[$n] =~ /^T:([A-Z]+)(.*)/) {
+        # Check if we have right target. If we have right target, we want this
+        # to be appended after the target is called, since we would get an error otherwise
+        my $tar = $1;
+        my $opt = $2;
+        if ($values[38] eq $tar) {
+          # YES, we have the right target :-)
+          $endterm .= " $opt $values[$n]";
+        }
       } else {
         # simple field/value append
         $rv .= " $fields[$n] $values[$n]";
       }
     } # End FOR @values
   } #  else { Rule is disabled. ignore. }
+
+  $rv .= $endterm;
 
 return &fill_tokens($rv);
 }# End generate_rule

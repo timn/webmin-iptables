@@ -40,6 +40,8 @@ foreach $c (@combs) {
 
 &terror('stm_err_invcomb') if (! $validcomb);
 
+push(@{$left->{'values'}}, $in{'ignin'});
+
 my @newconf = &filter(\@conf, $in{'left'}, $in{'right'});
 
 my @templates = &get_templates();
@@ -53,12 +55,17 @@ foreach my $t (@templates) {
         push(@newconf, "# $in{'left'} > $in{'right'} : $t : $d [\n");
 
         foreach $r (@{$templ{$short2long{$d}}}) {
-          my $tmp = &transform_token_net($r, $left, $right);
+          my $tmp="";
           if (defined($in{'masq'})) {
-            if (($right->{'values'}->[1] eq 'internet') && ($tmp =~ /^MASQ-(.+)$/)) {
-              $tmp = $1;
+            if (($right->{'values'}->[1] eq 'internet') && ($r =~ /^MASQ-(.+)$/)) {
+              $tmp = &transform_token_net($1, $left, $right, 1);
+            } else {
+              $tmp = &transform_token_net($r, $left, $right, 1);
             }
+          } else {
+            $tmp = &transform_token_net($r, $left, $right);
           }
+
           push(@newconf, "$tmp\n");
         }
 

@@ -28,7 +28,7 @@ eval "use $needperl";
 
 our %access=&get_module_acl();
 our $cl=$text{'config_link'};
-our $version="0.85.1";
+our $version="0.88.1";
 our $bootdir=undef;
 our $extdhcp=undef;
 
@@ -222,7 +222,8 @@ sub get_interfaces {
                   "$b->{'name'}:$b->{'virtual'}" } @act;
  
     foreach my $a (@act) {
-      next if ($a->{'fullname'} eq 'lo');
+      next if ( ($a->{'fullname'} eq 'lo') ||
+                ($a->{'fullname'} =~ /:/) );  # No aliases allowed
       push(@rv, $a->{'fullname'});
     }
 
@@ -278,6 +279,37 @@ sub create_basic_conf {
          print CONF "INTERFACE(" . join(', ', @{$if->{'values'}}) . ")\n";
        }
      }
+
+     print CONF "POLICY(filter, INPUT, DROP)\n";
+     print CONF "POLICY(filter, OUTPUT, DROP)\n";
+     print CONF "POLICY(filter, FORWARD, DROP)\n";
+     print CONF "POLICY(nat, PREROUTING, ACCEPT)\n";
+     print CONF "POLICY(nat, OUTPUT, ACCEPT)\n";
+     print CONF "POLICY(nat, POSTROUTING, ACCEPT)\n";
+
+     # of course we accept all localhost traffic...
+     my $line = &generate_line('filter', 'INPUT', undef, undef, undef,
+                               undef, undef, 'lo', undef, undef, undef,
+                               undef, undef, undef, undef, undef,
+                               undef, undef, undef, undef, undef,
+                               undef, undef, undef, undef, undef,
+                               undef, undef, undef, undef, undef,
+                               undef, undef, undef, undef, undef,
+                               undef, undef, 'ACCEPT', 'YES');
+
+      print CONF "$line\n";
+
+        $line = &generate_line('filter', 'OUTPUT', undef, undef, undef,
+                               undef, undef, undef, 'lo', undef, undef,
+                               undef, undef, undef, undef, undef,
+                               undef, undef, undef, undef, undef,
+                               undef, undef, undef, undef, undef,
+                               undef, undef, undef, undef, undef,
+                               undef, undef, undef, undef, undef,
+                               undef, undef, 'ACCEPT', 'YES');
+
+      print CONF "$line\n";
+
 
     close(CONF);
   }               
@@ -570,8 +602,9 @@ sub transform_token_net {
   my $line = $_[0];
   my $leftdev = $_[1];
   my $rightdev = $_[2];
-  my $left = $leftdev->{'values'}->[0];
+  my $left = $leftdev->{'values'}->[0] ;
   my $right = $rightdev->{'values'}->[0];
+  my $masq = $_[3];
   
 
   $line =~ s/\@INTIP\@/\@${left}IP\@/g;
@@ -583,9 +616,20 @@ sub transform_token_net {
     $line =~ s/\@EXTNET\@/\@${right}NET\@/g;
   }
 
-  $line =~ s/\@EXTIP\@/\@${right}IP\@/g;
-  $line =~ s/\@INTDEV\@/$left/g;
+  if ($masq) {
+    $line =~ s/\@EXTIP\@/IGNORE/g;
+  } else {
+    $line =~ s/\@EXTIP\@/\@${right}IP\@/g;
+  }
+
+  if ($leftdev->{'values'}->[scalar(@{$leftdev->{'values'}})-1]) {
+    $line =~ s/\@INTDEV\@/IGNORE/g;
+  } else {
+    $line =~ s/\@INTDEV\@/$left/g;
+  }
+
   $line =~ s/\@EXTDEV\@/$right/g;
+
 
   $line =~ s/\@WEBMINPORT\@/$ENV{'SERVER_PORT'}/g;
 
@@ -863,6 +907,12 @@ sub target_select {
     $rv .= "<OPTION";
     $rv .= " SELECTED" if ($_[3] eq $s);
     $rv .= ">$s\n";
+  }
+
+  if ( ($table eq 'nat') && ($chain eq 'POSTROUTING') ) {
+    $rv .= "<OPTION";
+    $rv .= " SELECTED" if ($_[3] eq "MASQUERADE");
+    $rv .= ">MASQUERADE\n";
   }
 
   foreach my $b (@{$builtins{$table}}) {
