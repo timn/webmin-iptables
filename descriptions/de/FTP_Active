@@ -1,0 +1,5 @@
+FTP ist das "File Transfer Protocol" zum Dateitransfer. Meistens wird es verwendet,
+Dateien zu einem Webserver zu uploaden. Wenn Sie aktives FTP verwenden,
+m&uuml;ssen Sie das Kernel-Modul "ip_conntrack_ftp" laden. FTP wurde nicht 
+f&uuml;r sichere Umgebungen konzipiert und ist daher f&uuml;r eine Firewall
+aufwendig zu handhaben.

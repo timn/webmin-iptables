@@ -1,0 +1,4 @@
+IDENT, der Indentifizierungsdienst, ordnet eine Netzwerkverbindung dem
+zugeh&ouml;rigen Benutzer zu. Es kann z.B. f&uuml;r die Authentisierung von
+Mail- oder FTP-Benutzern verwendet werden. Unsicher und sollte nicht auf
+einer FIrewall verwendet werden.

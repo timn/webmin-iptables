@@ -1,0 +1,7 @@
+Proxy-Server werden f&uuml;r indirekten Zugriff auf das Internet verwendet.
+Sie stellen eine Zwischenstufe dar, die die verwalteten Protokolle
+weiterleitet, analysiert und ggf. speichert oder filtert. Sehr h&auml;fig als
+Beschleunigung (Cache) oder zum Filtern von Inhalten verwendet. Bekannte
+Produkte z.B. Apache, Delegate, Squid (Proxy-Caches) oder Junkbbuster
+(URL-Blocker). Es wird standardm&auml;ssig angenommen, dass der Proxy
+auf Anschluss 8080 l&auml;ft.

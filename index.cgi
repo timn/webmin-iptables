@@ -68,7 +68,7 @@ if (! $config{'conffile'}) {
     print "<HR>\n";
     &footer("/", $text{'index_return'});
 
-} elsif (scalar(@defif) != scalar(@valif)) {
+} elsif (scalar(@defif) < scalar(@valif)) {
     # internal and external interface not yet defined, do that!
 
     &header($text{'index_title'}, undef, "index_ifaces", 1, 1, undef,

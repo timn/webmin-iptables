@@ -1,0 +1,3 @@
+Telnet ist die alte Unix-Terminalverbindung zu einem anderen Rechner. Es ist
+unsicher und sollte nicht mehr eingesetzt werden. Benutzen Sie statt dessen
+SSH!

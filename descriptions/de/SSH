@@ -1,0 +1,3 @@
+SSH steht f&uuml;r "Secure Shell". Es ist ein sicherer Ersatz f&uuml;r die
+alten Unix-Tools telnet, rsh, und rlogin. Es ben&ouml;tigt einen speziellen
+Dienst (sshd) auf dem Remote-Host und verschl&uuml;sselt die Verbindung zu diesem.

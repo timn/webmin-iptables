@@ -1,0 +1,13 @@
+SNMP is all all what the name says, but not simple ;-)
+To explain the templates I take inside -> firewall as an example:
+The inside -> firewall template allows management stations on the
+internal networks to access a SNMP server on the firewall and traps
+can go out from the firewall to management stations on the internal
+network.
+
+SNMP heisst "Simple Network Management Protocol", aber so einfach ist es
+dann doch wieder nicht!
+Mit der Vorlage "inside -> firewall" k&ouml;nnen Management-Stationen
+im internen LAN einen SNMP-Server auf der Firewall ansprechen. Weiterhin
+k&ouml;nnen SNMP-Meldunen (sog. "traps") von der Firewall an Rechner im
+LAN versendet werden.

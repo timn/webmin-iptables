@@ -195,9 +195,16 @@
              - Added Mandrake to list of supported OS (was a bug that it was
                no in there already).
              - Webmin 0.88 is now needed to limit possible problems.
+ 18.11.2001  - German service descriptions added, thanks to Markus Tulner
+             - now only need to reconfigure interfaces when defif is < valif
+               in index.cgi. ppp0 is not available when offline on most sys...
+ 14.12.2001  - I wrote my first university test today and i think it was OK :-)
+             - Finally we have a enable_conf.cgi :-)
+             - Finally removed the "ALPHA" suffix...
  
  To do
  ==============================================================================
- - Cloning of chains, suggested by Chaim Krause <chaim.krause@webmethods.com>
+ - Cloning of chains, suggested by Chaim Krause
+ - Adding/Editing of templates
 
 ### END of CHANGES ###.

@@ -1,0 +1,5 @@
+NFS ist das "Network File System", das zum Datenaustausch in Unix-Netzwerken
+eingesetzt wird. Es ist nicht sicher und es gibt lediglich Maschinenauthentisierung
+&uuml;ber IP-Adressen. 
+Da der NFS mountd-Dienst zuf&auml;llige Ports verwendet, wird NFS nur als Server
+auf der Firewall unterst&uuml;tzt. 

@@ -1,0 +1,3 @@
+IPSec steht f&uuml;r "IP Security", eine verschl&uuml;sselte Version des IP-
+Protokolls, die h&auml;ufig f&uuml;r VPNs benutzt wird. Diese Vorlage erlaubt
+ESP und AH-Protokolle und Verbindungen zwischen IKE-Servern.

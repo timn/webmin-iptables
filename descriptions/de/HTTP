@@ -1,0 +1,7 @@
+HTTP ist das "HyperText Transport Protocol", die "Muttersprache des Web-Datentransfers".
+Dies ist vergleichbar mit HTML als Haupt-Layoutsprache der Web-Inhalte. Wenn
+diese Firewall als Gateway genutzt wird, wird HTTP wahrscheinlich freigegeben werden.
+Das Protokoll gilt als ziemlich sicher, nicht jedoch die damit &uuml;bertragenen Inhalte.
+Sie sollten daher einen Anti-Virus sowie evtl. IDS-Tools (Intrusion Detection) auf 
+Ihrem Firewall und/oder Ihren Clients installieren. Zus&auml; ist der Einsatz eines
+Proxy-Servers f&uuml;r dieses Protokoll zu empfehlen.

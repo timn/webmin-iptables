@@ -1,0 +1,22 @@
+Gem&auml;ss der Micro$oft-Philosophie ausgedr&uuml;ckt: Sie haben
+bei deisem Protokoll ganze Arbeit geleistet!
+Es ist das schlechteste Protokoll-Design, das man sich vorstellen
+kann, zumindest aus Sicht des Firewall-Administrators. Wahrscheinlich
+hat niemand die Struktur dieses Protokolls ganz verstanden, und die
+Interna und Bezeichnungen &auml;ndern sich bei jeder Windoof-Version.
+<br>
+F&uuml;r SMB ben&ouml;tigt man einen riesigen Protokollstapel, vergleichbar
+mit einer gigantischen Pyramide. Zun&auml;chst muss man das 
+"NetBIOS over TCP/IP"-Protokoll (abgek&uuml;rzt mit NetBT) erlauben.
+Auf dieses setzt dann SMB auf. Es handelt sich f&uuml;r NetBT um die Anschl&uuml;sse 
+137 f&uuml;r Namensaufl&ouml;sung, 138 f&uuml;r die Nutzdaten und 139
+f&uuml;r die Sitzungsverwaltung. SMB benutzt hiervon den Anschluss 138
+f&uuml;r UDP (was selten vorkommt) und 139 f&uuml;r TCP.
+<br>
+Da Micro$oft bei Windoof 2000 das Rad wieder einmal neu erfunden hat,
+gibt es jetzt ein direkt auf TCP aufsetzenden SMB-Protokoll 
+(ohne dazwischenliegende NetBIOS-Schicht). Dieses benutzt f&uuml;r TCP- wie
+auch UDP-Daten den Anschluss 445.
+<br>
+Die derzeit vorhandenen NAT-Regeln f&uuml;r dieses Protokoll befinden sich
+noch im Betastatus!

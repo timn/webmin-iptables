@@ -1,0 +1,3 @@
+FTP ist das "File Transfer Protocol" zum Dateitransfer. Meistens wird es verwendet,
+Dateien zu einem Webserver zu uploaden. Passives FTP ben&ouml;tigt mehrere offene Ports auf
+der Firewall. Am Besten, Sie verwenden gar kein FTP...

@@ -1,0 +1,5 @@
+DHCP steht f&uuml;r "Dynamic Host Configuration Protocol". Ein sog. DHCP-Server
+verteilt an alle angeschlossenen Clients deren Netzwerkkonfiguration, darunter
+IP-Adresse, Nameserver, Gateway etc. Die DHCP-Regeln unterst&utzen einen DHCP-Server
+auf der Firewall, nicht jedoch einen DHCP Client (was f&uuml;r einen Firewall auch nicht
+sinnvoll w&auml;re).

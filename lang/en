@@ -322,3 +322,7 @@ stm_err_invcomb=Invalid device combination given.
 dchain_err_nochain=No chain to delete!
 dchain_err_notable=No table to delete!
 dchain_err_acl=You are not allowed to delete chains.
+
+exscript_err=Enabling the configuration failed
+exscript_err_procneeded=The "Running Processes" module is needed!
+exscript_failed=Error message: $1
