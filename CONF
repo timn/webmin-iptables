@@ -1,0 +1,187 @@
+
+ IPtables Firewalling Webmin Module
+ Copyright (C) 2001 by Tim Niemueller <tim@niemueller.de>
+ http://www.niemueller.de/webmin/modules/iptables/
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ Created  : 24.06.2001
+
+
+ Definition of the config file
+ =============================
+ 
+ The module now creates a config file which is then parsed by a prewritten
+ Perl script that can be setup to run on system startup or special events
+ (like establishing a PPP connection).
+ This description is mostly for myself or other hackers who want to
+ help out with some code...
+ 
+ This file is optimized to be easy to parse. The main purpose is NOT to
+ be easy readable for humans.
+ 
+ The config file does know comments. Every line beginning with # is
+ ignored. The # MUST be the first character in the line.
+ 
+ Each line contains one dataset. It has a function-like form:
+ LINETYPE(argument0, argument1, ...).
+ 
+ One dataset MAY ONLY BE ONE LINE. Line-Splitting as known from
+ programming languages like
+ 
+ function(param,
+          param2)
+
+ is NOT allowed!
+
+ The types and appropriate parameters are:
+ 
+
+ MODE
+ ====
+ Mode, that the File was created in.
+ Parameters:
+  - newbie, conffile was last edited in newbie mode
+  - template, conffile was last edited in template mode
+  - expert, conffile was laste edited in expert mode
+
+ FWTYPE
+ ======
+ Firewall type. The arguments are:
+  0  Firewall type
+  1  [optional] if any value is present masquerading is on
+
+ INTERFACE
+ =========
+ Network Interface definition. Interfaces must be defined BEFORE any
+ rules that depend on them (via @devIP@ token for example).
+ The arguments are:
+  0  Interface name, e.g. eth0 or ippp0
+  1  Type, maybe dmz, intern, extern, internet, vpn or ignore
+
+ LEVEL
+ =====
+ Only available when MODE is newbie. Defines the firewall level.
+ Maybe disabled, low, medium or high.
+
+ FLUSH
+ =====
+ Flushes a chain if name is given as argument, otherwise all chains.
+ Arguments have the form table::chain. For example: filter::INPUT.
+
+ DELCHAIN
+ ========
+ Deletes a chain if name is given as argument, otherwise all chains.
+ Arguments have the form table::chain. For example: filter::myown.
+
+ KERNELMOD
+ =========
+ Loads a kernel module. Arguments:
+  0  insmod or modprobe (default if empty)
+  1  Kernel Module Name, for example ip_conntrack_ftp
+  2  Arguments for the module loader
+
+ CHAIN
+ =====
+ Creates a chain, parameter if colon-separated list. Arguments:
+  0  Table
+  1  Chain Name
+
+ POLICY
+ ======
+ Defines the default policy for a standard chain.
+ Arguments are:
+  0  Table
+  1  Chain
+  2  Policy
+
+ RULE
+ ====
+ Appends a rule to a chain. The arguments are:
+  0  table
+  1  chain
+  2  protocol
+  3  source IP
+  4  source port
+  5  destination IP
+  6  destination port
+  7  Incoming interface
+  8  Outgoing interface
+  9  fragmented
+ 10  TCP flags, space separated "to be examined" and "must be set"
+     lists of colon separated flags (like "SYN:ACK:RST SYN")
+ 11  ICMP Type
+ 12  MAC Source
+ 13  Multiple Source Ports
+ 14  Multiple Destination Ports
+ 15  Limit Rate
+ 16  Limit Burst
+ 17  Mark
+ 18  UID
+ 19  GID
+ 20  PID
+ 21  SID
+ 22  State
+ 23  Unclean
+ 24  TOS
+ 25  Loglevel
+ 26  log prefix
+ 27  log TCP sequence
+ 28  Log TCP Options
+ 29  Log IP options
+ 30  Set Mark
+ 31  reject type
+ 32  set TOS
+ 33  SNAT
+ 34  DNAT
+ 35  Masquerading
+ 36  redirect
+ 37  SYN, could be done with arg 10, but this is easier
+     if you write lots of templates as I do => for my lazyness :-)
+     It may be YES, NO, IGNORE
+ 38  target
+ 39  active
+
+ MASQ-RULE
+ =========
+ Same as RULE but only executed when Masquerading is enabled. Only used
+ in templates. It is ignore when it occurs in the configuration file.
+
+ CONDMULTI-RULE
+ ==============
+ Conditional multi rules. Multiple rules that rely one a condition or that
+ need execution of code to get some information.
+ Some protocols have dynamic ports and you need to exec a command that gives
+ you a specific piece of information.
+ Arguments are complex:
+  0     Type of conditions. Currently only "system" is supported as type.
+        The conditional code is then executed with qx(). The output is the
+        split by \n. Each line must contain one replacement for the name.
+  1     number of rules you want to apply the condition on. The following
+        n rules are considered to be filled with the appropriate values.
+  2..41 you can specify up to 39 conditions (so you can create rules with all
+        fields depending on this statement.
+        Each condition contains two values:
+        - A name for this condition (for example CONDPORT). Each occurence
+          of @NAME@ (in the example @CONDPORT@) in the rules depending on this
+          condition is replaced with one of the values.
+        - The code to execute. When the eval type is used the code must be
+          executable Perl code which can be executed in an eval call. The
+          returned value MUST be an array. The depeding rules are executed once
+          for each value in the array.
+        The condition has the form %%name%%code%% expecting that %% does not
+        occur in the name and in the code!
+
+ DENY-RULE
+ =========
+ A rule that is denied for outgoing interfaces. It is used for the basic
+ blocks (IANA reserved addresses for example).
+  0  Address or Network to block

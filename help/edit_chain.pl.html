@@ -1,0 +1,51 @@
+<header>Firewall ³añcuchów IP - zmiany ³añcucha</header>
+
+Plik ten opisuje zmiany ³añcuchów dokonywane w&nbsp;module. <P>
+
+Po pierwsze, na pewno chcesz wiedzieæ, do czego s³u¿± poszczególne kolumny
+w&nbsp;tabeli, tak wiêc:<BR><BR>
+
+<U>¬ród³o</U><BR>
+Jak zapewne zgadujesz, ta kolumna zawiera adres ¿ród³owy, z&nbspktórego
+pakiet przybywa. S±siednia kolumna &quot;Port&quot; zawiera ¼ród³owy port.
+
+<BR><BR><U>Przeznaczenie</U><BR>
+Przeznaczenie pakietu. Na przyk³ad, chcesz, aby pakiety http przechodzi³y
+ale ftp by³y blokowane. Wszystkie te serwery warezów...
+
+<BR><BR><U>Protokó³</U><BR>
+Jest to protokó³, po którym pakiet jest wysy³any. Zazwyczaj bywa to TCP lub
+UDP, czasami równie¿ ICMP dla pingów, traceroute'a i&nbsp;paru obserwatorów
+sieci sprawdzaj±cych dostêpno¶æ Twoich serwerów. Mo¿esz chcieæ przepu¶ciæ
+niektóre pakiety, a&nbsp;innych nie. Zauwa¿, ¿e &quot;Protokó³&quot; nie
+oznacza protoko³ów wysokiego poziomu, jak na przyk³ad http czy ftp, ale
+protoko³y niskiego poziomu warstwy sieciowej.
+
+<BR><BR><U>Interfejs</U><BR>
+Okre¶la interfejs, którego dana regu³a dotyczy. Dla pakietów przychodz±cych
+jest to interfejs, którym wchodz±, dla przekazywanych i&nbsp;wychodz±cych
+jest to interfejs, którym wychodz±. Zapewne masz jaki¶ &quot;zaufany&quot;
+interfejs, który mo¿e przesy³aæ dowolne pakiety, ale inny (byæ mo¿e
+pod³±czony do Internetu) powinien przesy³aæ tylko niektóre pakiety...
+
+<BR><BR><U>S (flaga SYN)</U><BR>
+Wskazuje, czy flaga SYN w&nbsp;pakietach musi byæ ustawiona, nie mo¿e byæ
+ustawiona, czy mo¿e byæ ustawiona. Flaga SYN jest ustawiona dla pakietów
+nawi±zuj±cych po³±czenie TCP. <BR>
+Je¶li musi byæ ustawiona - jest X, je¶li musi byæ nieustawiona - jest !,
+a&nbsp;je¶li mo¿e byæ ustawiona - nie ma nic.
+
+<BR><BR><U>F (flaga fragmentacji)</U><BR>
+Jest ustawiona we fragmentach od drugiego do ostatniego pakietu, który
+uleg³ fragmentacji. Nie wolno podawaæ portu.<BR>
+Je¶li musi byæ ustawiona - jest X, je¶li musi byæ nieustawiona - jest !,
+a&nbsp;je¶li mo¿e byæ ustawiona - nie ma nic.
+
+<BR><BR><U>L (logowanie)</U><BR>
+Je¶li w³±czone (X), pakiet jest logowany.
+
+<BR><BR><U>TOS (rodzaj us³ugi)</U><BR>
+ipchains mo¿e zmieniaæ flagi TOS pakietu. Maj± one kilka mo¿liwych warto¶ci.
+Pokazano je w&nbsp;tej kolumnie.
+
+<hr>

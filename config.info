@@ -1,0 +1,9 @@
+mode=Operation Mode,1,1-Newbie,2-Template,3-Expert
+fwtype=Type of firewall,1,router-Router,personal-Personal
+conffile=Path to config file,0
+intdev=NIC(s) for inside network in templates,0
+bootloc=Location of bootup and shutdown scripts,3,From Bootup and Shutdown Module
+iptables_path=Path to iptables,3,Default (/sbin/iptables)
+proto_file=Path to protocols file,3,Default (/etc/protocols)
+hostsfile=Path to your hosts file,3,Default (/etc/hosts)
+netifaces=Network Interfaces (comma-separated list),3,Use Network Configuration Module for detecting

@@ -1,0 +1,65 @@
+# Quake I:
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 26000 -p udp -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @EXTNET@ 26000 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
+# QuakeWorld:
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 27000 -p udp -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @EXTNET@ 27000 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
+# Quake II:
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 27910 -p udp -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @EXTNET@ 27910 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
+# Quake III Arena:
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 27960 -p udp -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @EXTNET@ 27960 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 1025:1200 -p tcp -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @EXTNET@ 1025:1200 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
+##NOMASQ: # Quake I:
+##NOMASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 26000 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 26000 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @EXTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 26000 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @INTDEV@ -s @EXTNET@ 26000 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
+##NOMASQ: # QuakeWorld:
+##NOMASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 27000 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 27000 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @EXTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 27000 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @INTDEV@ -s @EXTNET@ 27000 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
+##NOMASQ: # Quake II:
+##NOMASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 27910 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 27910 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @EXTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 27910 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @INTDEV@ -s @EXTNET@ 27910 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
+##NOMASQ: # Quake III:
+##NOMASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 27910 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 27910 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @EXTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 27910 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @INTDEV@ -s @EXTNET@ 27910 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
+##NOMASQ: # Originally Quake I
+##NOMASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 1025:1200 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 1025:1200 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @EXTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 1025:1200 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @INTDEV@ -s @EXTNET@ 1025:1200 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
+##MASQ: if [ -e /lib/modules/$(uname -r)/ipv4/ip_masq_quake.o ]; then
+##MASQ:   if [ -x /sbin/insmod ]; then
+##MASQ:     if ! $(grep -q -s ip_masq_quake /proc/modules >/dev/null); then
+##MASQ:       /sbin/insmod -q -s ip_masq_quake 26000,27000,27910,27960
+##MASQ:     fi
+##MASQ:   fi
+##MASQ: fi
+##MASQ: # Quake I:
+##MASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 26000 -d @EXTIP@ 1024:65535 -p udp -j ACCEPT
+##MASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 1024:65535 -d @EXTNET@ 26000 -p udp -j ACCEPT
+##MASQ: @IPCHAINS@ -A forward -s @INTNET@ 1024:65535 -d @EXTNET@ 26000 -p udp -j MASQ
+##MASQ: # QuakeWorld:
+##MASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 27000 -d @EXTIP@ 1024:65535 -p udp -j ACCEPT
+##MASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 1024:65535 -d @EXTNET@ 27000 -p udp -j ACCEPT
+##MASQ: @IPCHAINS@ -A forward -s @INTNET@ 1024:65535 -d @EXTNET@ 27000 -p udp -j MASQ
+##MASQ: # Quake II:
+##MASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 27910 -d @EXTIP@ 1024:65535 -p udp -j ACCEPT
+##MASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 1024:65535 -d @EXTNET@ 27910 -p udp -j ACCEPT
+##MASQ: @IPCHAINS@ -A forward -s @INTNET@ 1024:65535 -d @EXTNET@ 27910 -p udp -j MASQ
+##MASQ: # Quake III Arena:
+##MASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 27960 -d @EXTIP@ 1024:65535 -p udp -j ACCEPT
+##MASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 1024:65535 -d @EXTNET@ 27960 -p udp -j ACCEPT
+##MASQ: @IPCHAINS@ -A forward -s @INTNET@ 1024:65535 -d @EXTNET@ 27960 -p udp -j MASQ
+##MASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 1025:1200 -d @EXTIP@ 1024:65535 -p udp -j ACCEPT
+##MASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 1024:65535 -d @EXTNET@ 1025:1200 -p udp -j ACCEPT
+##MASQ: @IPCHAINS@ -A forward -s @INTNET@ 1024:65535 -d @EXTNET@ 1025:1200 -p udp -j MASQ

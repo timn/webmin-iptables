@@ -1,0 +1,3 @@
+IDENT is used to identify data streams and to assign them a user. It may
+be used to authenticate mail users or FTP users. Also you should not rely on
+it...

@@ -1,0 +1,11 @@
+DENY
+DENY
+REJECT
+DNS-fwin-fwout
+HTTP-fwin-fwout
+HTTPS-fwin-fwout
+POP3-fwin-fwout
+Ping-fwin-fwout
+SMTP-fwin-fwout
+SSH-fwin-fwout
+Webmin-fwin-fwout

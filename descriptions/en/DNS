@@ -1,0 +1,3 @@
+DNS is the Domain Name System. It is used to lookup address by names and
+vice versa. For example if you surf to www.niemueller.de its address
+is first looked up via DNS. You probably need that.

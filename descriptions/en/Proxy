@@ -1,0 +1,2 @@
+Proxies or Caches are used for speeding up internet connections and to save
+bandwidth. It is assumed that the de-facto standard port 8080 is used.

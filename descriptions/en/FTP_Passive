@@ -1,0 +1,6 @@
+FTP is the File Transfer Protocol. It is used to transfer files, its most
+common use is to upload files to your website.
+Passive FTP does not send a PORT command but it rather just opens
+a connection pretty simple. The problem now is that you have to allow
+basically nearly any traffic to be able to use it. It is recommended
+to not use passive FTP or FTP at all.

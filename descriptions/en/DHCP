@@ -1,0 +1,4 @@
+DHCP is the "Dynamic Host Configuration Protocol". It is used to automatically
+supply basic network data like IP address, nameservers and routig information
+to your clients. It makes no sense to have a DHCP client on a firewall so this
+protocol is only supported with your firewall as a DHCP server.

@@ -1,0 +1,5 @@
+NFS it the Network File System which is basically Unix-filesharing. It is
+itself not secured and has only IP matching as authentication. It needs
+several daemons to run. On is mountd which assigns its ports randomly
+on startup. So to discover those a special script has to be run. That is the
+reason why only the "Firewall-is-server" configuration is supported.

@@ -1,0 +1,80 @@
+
+ IPtables Firewalling Webmin Module
+ Copyright (C) 2001 by Tim Niemueller <tim@niemueller.de>
+ http://www.niemueller.de/webmin/modules/iptables/
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ Created  : 25.06.2001
+
+
+ General Information about the Module
+ ====================================
+
+ This is the file for architectural information (if there is any
+ that is worth to be called so) of the IPtables Firewall Module.
+
+
+
+ Overall Structure
+ -----------------
+ 
+ The module has three operation modes: Newbie, Template and Expert Mode.
+
+ The Newbie mode let's the user choose between a disabled firewall, three
+ different security modes and full security. Full means that NO traffic
+ will go through the firewall! Really NO traffic!
+ The three security modes between are low, medium and high. Where low
+ accepts the most common services for a network and some additional
+ network administration tools.
+ The medium level allows only services known to be as harmless as
+ possible (HTTP, NNTP, SMTP).
+ The high mode only accepts the most important services like Web and
+ mail.
+ 
+ The template modes allows the user to enable specific network
+ protocols for traffic. The user can choose from interface combinations
+ shown on the top of the screen as tabs. For example inside->dmz or
+ inside->internet.
+ The templates are some that I wrote templates for or self-defined
+ templates that can be defined with the "Define Template" link at
+ the bottom of the page.
+ 
+ The expert modes is for the really advanced users. It allows the "raw"
+ edit of chains and rules with all supported parameters. You should use
+ this mode for special constructs.
+
+
+
+ Differences to the IPchains Module
+ ----------------------------------
+ 
+ Importing of old settings is not supported.
+
+
+ Internationalisation (i18n)
+ ---------------------------
+ 
+ Internationalisation support is pretty simple. The lang subdirectory
+ has a file called "en". Copy it an translate all lines as described
+ in the Webmin Module Writers Help (to be found at
+ http://www.niemueller.de/webmin/writers-help/) and rename the file
+ to the ISO shortcut (like "de" for German).
+ The Descriptions for the templates are in the subdirectory called
+ "descriptions/LANGUAGE", where LANGUAGE is the short cut (like en
+ or de).
+ The graphics for the levels contain also text so they are prepared
+ for i18n. The module looks for images with the name
+ IMAGE.LANGUAGE.gif in the images subdirectory, where IMAGE is the
+ name of the level (disabled, low, medium, high, full, always in
+ english!) and LANGUAGE the language abbreviation (like en or de).
+ Use IMAGE.gif as a template.
+ 

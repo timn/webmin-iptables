@@ -1,0 +1,13 @@
+REJECT
+REJECT
+REJECT
+DNS-fwin-fwout
+FTP.Active-fwin-fwout
+HTTP-fwin-fwout
+HTTPS-fwin-fwout
+IMAP-fwin-fwout
+POP3-fwin-fwout
+Ping-infw-outfw-fwin-fwout
+SMTP-fwin-fwout
+SSH-fwin-fwout
+Webmin-fwin-fwout

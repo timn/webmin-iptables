@@ -1,0 +1,2 @@
+SSH is the Secure SHell. It is a replacement for insecure services like
+telnet, rsh and rlogin. It opens an encrypted connection to the remote host.

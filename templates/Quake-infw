@@ -1,0 +1,14 @@
+# Quake I:
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @INTIP@ 26000 -p udp -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 26000 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
+# QuakeWorld:
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @INTIP@ 27000 -p udp -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 27000 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
+# Quake II:
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @INTIP@ 27910 -p udp -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 27910 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
+# Quake III Arena:
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @INTIP@ 27960 -p udp -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 27960 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @INTIP@ 1025:1200 -p tcp -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 1025:1200 -d @INTNET@ 1024:65535 -p udp -j ACCEPT

@@ -1,0 +1,12 @@
+DENY
+DENY
+REJECT
+DNS-infw-inout-outfw-fwin-fwout
+FTP.Active-infw-inout-fwin-fwout
+HTTP-infw-inout-fwin-fwout
+HTTPS-infw-inout-fwin-fwout
+POP3-infw-inout-outin
+Ping-infw-inout-fwin-fwout
+SMTP-infw-inout-outfw-fwin-fwout
+SSH-infw-inout-fwin-fwout
+Webmin-infw-fwin

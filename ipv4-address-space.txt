@@ -1,0 +1,134 @@
+
+INTERNET PROTOCOL V4 ADDRESS SPACE
+
+(last updated 2001 June 19)
+
+The allocation of Internet Protocol version 4 (IPv4) address space to
+various registries is listed here.  Originally, all the IPv4 address
+spaces was managed directly by the IANA.  Later parts of the address
+space were allocated to various other registries to manage for
+particular purposes or regional areas of the world.  RFC 1466
+documents most of these allocations.
+
+
+Address Block	Registry - Purpose			Date
+--------------- --------------------------------------- ------
+000/8		IANA - Reserved				Sep 81
+001/8		IANA - Reserved				Sep 81
+002/8		IANA - Reserved				Sep 81
+003/8		General Electric Company		May 94
+004/8		Bolt Beranek and Newman Inc.		Dec 92
+005/8		IANA - Reserved				Jul 95
+006/8		Army Information Systems Center		Feb 94
+007/8		IANA - Reserved				Apr 95
+008/8		Bolt Beranek and Newman Inc.		Dec 92
+009/8		IBM					Aug 92
+010/8		IANA - Private Use			Jun 95
+011/8		DoD Intel Information Systems		May 93
+012/8		AT&T Bell Laboratories			Jun 95
+013/8		Xerox Corporation			Sep 91
+014/8		IANA - Public Data Network		Jun 91
+015/8		Hewlett-Packard Company			Jul 94
+016/8		Digital Equipment Corporation		Nov 94
+017/8		Apple Computer Inc.			Jul 92
+018/8		MIT					Jan 94
+019/8		Ford Motor Company			May 95
+020/8		Computer Sciences Corporation		Oct 94
+021/8		DDN-RVN					Jul 91
+022/8		Defense Information Systems Agency	May 93
+023/8		IANA - Reserved				Jul 95
+024/8		ARIN - Cable Block			May 01
+                (Formerly IANA - Jul 95)
+025/8		Royal Signals and Radar Establishment	Jan 95
+026/8		Defense Information Systems Agency	May 95
+027/8		IANA - Reserved				Apr 95
+028/8		DSI-North				Jul 92
+029/8		Defense Information Systems Agency	Jul 91
+030/8		Defense Information Systems Agency	Jul 91
+031/8		IANA - Reserved				Apr 99
+032/8		Norsk Informasjonsteknologi		Jun 94
+033/8		DLA Systems Automation Center		Jan 91
+034/8		Halliburton Company			Mar 93
+035/8		MERIT Computer Network			Apr 94
+036/8		IANA - Reserved 			Jul 00
+                (Formerly Stanford University - Apr 93)
+037/8		IANA - Reserved				Apr 95
+038/8		Performance Systems International	Sep 94
+039/8		IANA - Reserved				Apr 95
+040/8		Eli Lily and Company			Jun 94
+041/8		IANA - Reserved				May 95
+042/8		IANA - Reserved				Jul 95
+043/8		Japan Inet				Jan 91
+044/8		Amateur Radio Digital Communications	Jul 92
+045/8		Interop Show Network			Jan 95
+046/8		Bolt Beranek and Newman Inc.		Dec 92
+047/8		Bell-Northern Research			Jan 91
+048/8		Prudential Securities Inc.		May 95
+049/8		Joint Technical Command			May 94
+		Returned to IANA			Mar 98
+050/8		Joint Technical Command			May 94
+		Returned to IANA			Mar 98
+051/8		Deparment of Social Security of UK	Aug 94
+052/8		E.I. duPont de Nemours and Co., Inc.	Dec 91
+053/8		Cap Debis CCS				Oct 93
+054/8		Merck and Co., Inc.			Mar 92
+055/8		Boeing Computer Services		Apr 95
+056/8		U.S. Postal Service			Jun 94
+057/8		SITA					May 95
+058/8		IANA - Reserved				Sep 81
+059/8		IANA - Reserved				Sep 81
+060/8		IANA - Reserved				Sep 81
+061/8		APNIC - Pacific Rim			Apr 97
+062/8		RIPE NCC - Europe			Apr 97
+063/8		ARIN					Apr 97
+064/8		ARIN					Jul 99
+065/8           ARIN					Jul 00
+066/8		ARIN					Jul 00
+067/8           ARIN					May 01
+068/8           ARIN					Jun 01
+069-079/8	IANA - Reserved				Sep 81
+080/8		RIPE NCC				Apr 01
+081/8           RIPE NCC				Apr 01
+082-095/8	IANA - Reserved				Sep 81
+096-126/8	IANA - Reserved				Sep 81
+127/8		IANA - Reserved				Sep 81
+128-191/8	Various Registries 			May 93
+192/8		Various Registries - MultiRegional	May 93
+193/8		RIPE NCC - Europe			May 93
+194/8		RIPE NCC - Europe			May 93
+195/8		RIPE NCC - Europe			May 93
+196/8		Various Registries			May 93
+197/8		IANA - Reserved				May 93
+198/8		Various Registries 			May 93
+199/8		ARIN - North America 			May 93
+200/8		ARIN - Central and South America	May 93
+201/8		Reserved - Central and South America	May 93
+202/8		APNIC - Pacific Rim			May 93
+203/8		APNIC - Pacific Rim			May 93
+204/8		ARIN - North America 			Mar 94
+205/8		ARIN - North America 			Mar 94
+206/8		ARIN - North America 			Apr 95
+207/8		ARIN - North America 			Nov 95
+208/8		ARIN - North America 			Apr 96
+209/8		ARIN - North America			Jun 96
+210/8		APNIC - Pacific Rim			Jun 96
+211/8		APNIC - Pacific Rim			Jun 96
+212/8           RIPE NCC - Europe                       Oct 97
+213/8           RIPE NCC - Europe                       Mar 99
+214/8		US-DOD					Mar 98
+215/8		US-DOD                                  Mar 98
+216/8           ARIN - North America                    Apr 98
+217/8           RIPE NCC - Europe                       Jun 00  
+218/8           APNIC - Pacific Rim			Dec 00  
+219-223/8       IANA - Reserved				Sep 81
+224-239/8	IANA - Multicast			Sep 81
+240-255/8	IANA - Reserved				Sep 81
+
+[]
+
+
+
+
+
+
+

@@ -1,0 +1,21 @@
+If you follow the Micro$oft philosophy you have to say: They did
+a really good job on this protocol!
+It is the worst in design that you can think of (at least from the
+firewall admin point of view) I assume nobody really understood
+already their weird structure. But even worse are the names that
+change from Windoze version to version...
+<BR>
+OK, the important stuff: For SMB we have to enable a monolithic
+pyramid (they write monolithic software so don't be surprised...).
+It is basically the NetBIOS over TCP/IP (NetBT) protocol that you
+have to allow. SMB runs then on top of that. This is port 137 for
+Name Service, 138 for datagram traffic and 139 for session server.
+SMB then uses port 138 for UDP traffic (which is rare) and port 139
+for TCP traffic.
+<BR>
+Since M$ reinvented the wheel again with Windoze 2000 they have now
+SMB running directly on top of TCP/IP without NetBT we also have to
+allow traffic to port 445 TCP/UDP.
+<BR>
+Although there are masquerading rules they have to be considered
+experimental!

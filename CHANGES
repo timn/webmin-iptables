@@ -1,0 +1,169 @@
+
+ IPtables Firewalling Webmin Module - CHANGES
+ Copyright (C) 2001 by Tim Niemueller <tim@niemueller.de>
+ http://www.niemueller.de/webmin/modules/iptables/
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ Created  : 24.06.2001
+
+
+
+ This file describes the changes made to the IPchains Firewalling Webmin Module.
+ (Version history).
+
+
+ Changes
+ ==============================================================================
+ 24.06.2001  - Created the layout
+ (0.86.0)    - Compiled a new 2.4 kernel ;-)
+             - Created CHANGES file
+             - Defined the style of the config file, on paper
+             - edited iptables-lib.pl and index.cgi to fit the environment
+             - made config.info and config
+ 25.06.2001  - Created README
+             - Added first info about overall structure to README
+             - Wrote parse_config, get_by_type and get_value. The parser
+               is pretty simple but since that was one of the goals of the
+               new iptables module that is quiet a success. I will see if that
+               was really a good choice... But the ipchains mod parser was just
+               too bad!
+             - Removed some unneeded stuff from index.cgi
+             - Restructured parts of index.cgi
+             - Got index.cgi so far that is displays at least the icons
+               for the different leves and see which level is enabled from
+               the LEVEL line in the config file. You cannot do anything yet.
+ 26.06.2001  - Edited CHANGES
+             - Changed the way interfaces are handled. Now all interfaces
+               have to be named as a specific type (internal, external, DMZ
+               or internet). That is the basic structure now for handling
+               more interfaces than only two as in the ipchains module.
+ 27.06.2001  - Was at the RWTH Aachen and now decided definitively to study
+               there. OK, nothing for the changes file but... ;-)
+ 28.06.2001  - My brothers 13th birthday. Now he has got 128 megs more :-)
+             - Did not do anything on the module
+ 29.06.2001  - First work on n-systech.com
+ 30.06.2001  - Still working on the website
+ 01.07.2001  - OK, now back to work on the module :-) n-systech.com is done.
+               Now I have to get up the infrastructure for actually selling
+               services... But first I want to get the iptables mod done...
+             - wrote save_interfaces
+             - added VPN as type for interfaces
+             - added POLICY() to CONF.
+             - first cleanups to get expert mode in index.cgi running again.
+               Maybe I should write index_MODE.cgi files to make the code
+               easier to read!? Have to think about that...
+             - Added get_iface_combs (get interface combinations). This sub
+               returns an array of hashes with all valid interface
+               combinations that we need to take care of.
+             - added tabs in template mode showing all interface combinations
+               so that the user can edit them all separately.
+             - Added code that direction headings in table are automatically
+               generated (like Intern -> FW or Intern -> VPN)
+ 07.07.2001  - Was busy the last days, have an appartment now :-)
+             - Renamed the APPEND config directive to RULE
+             - Finished work on expert mode page in index.cgi
+             - started work on edit_chain.cgi for the expert mode, wow that
+               will need some work... Made it at least show something on the
+               screen...
+             - Had a real cool-looking bug with an atomic bomb layout. I
+               made a , an ; in a print statement, bad idea :-) I made a
+               screenshot and will put it on the website :-)
+             - installed iptables 1.2.2 that does not have a broken man page...
+ 08.07.2001  - My mom's birthday
+             - Listening to Star Wars - Episode VI :-)
+             - Finished edit_chain, can now show chains in either table
+             - Reduced the number of fields in the edit_chain table, only
+               relevant fields for identification are now shown to make
+               it more readable. You usually don't identify a rule by the
+               TCP flags...
+ 18.07.2001  - My dog Ando's 4th birthday!
+ 19.07.2001  - Finished work on edit_rule.cgi, it can now display all info
+               about a rule. Added all the stuff. Oh my, that's really a lot!
+               Maybe I should split it up to more pages to make it better
+               readable!?
+             - started work on save_rule.cgi.
+             - changed argument separator in config file to comman. Makes
+               it easier with port and MAC addresses.
+ 20.07.2001  - Wrote generate_line, maybe it should better be generate_rule...
+             - Finished save_rule.cgi
+ 21.07.2001  - Updated change_policy.cgi and save_policy.cgi for iptables
+ 22.07.2001  - Updated move_rule for iptables and new configuration file
+             - Updated clone_rule
+             - Updated edit_chain to always include table and chain in URL for
+               actions
+             - Updated delete_rule
+ 23.07.2001  - Updated edit_rule, set limitrate to "" if it is IGNORE
+             - Updated create_chain
+             - Added an action to edit_chain: Enable or disable a rule.
+               Created a new icon but send an email to George about a new
+               and nice one :-)
+             - Wrote set_rule for activating and disabling rules.
+             - Updated list_hosts
+             - Updated edit_host
+             - Updated delete_host
+             - Walked the dog
+             - Updated host_hooser
+             - Updated subs host_chooser_button and service_chooser_button
+ various
+ until
+ 08.08.2001  - Ported the templates from the ipchains module up to the iptables
+               configuration syntax. Working with iptables showed me that is
+               a lot clearer in design and easy to configure. For example you
+               don't have to guess, hmm, will it be the input or the output
+               device!? Just one nice thing...
+             - wrote parse_level
+ 09.08.2001  - Finished template transition, added CONDMULTI-RULE
+ 10.08.2001  - I was at HAL 2001 - Hacking at Large - http://www.hal2001.org
+ to            It was really absolutely great, had a lot of fun there!
+ 12.08.2001
+ 15.08.2001  - change_level can now save levels
+             - template mode page can now display activated templates
+             - save_tmode.cgi is done, template mode can now be saved
+               per device combination!
+             - fixed write_basics, ranges were not recognized
+             - updated HIGH.level
+             - Corrected DNS.rules, was tcp instead of UDP
+             - Added IPSec.rules
+ 19.08.2001  - wrote copy_fwfile.cgi
+             - Changed eval to system in CONF
+             - Fixed small display bug in index.cgi, only the first interface-
+               combination could be viewed. That's fixed now
+             - Masquerading is now a configuration time option. Otherwise
+               we would need to save Masquerading per interface combination.
+               To avoid that now all connections to the internet are
+               masqueraded if you set it. You can still define it per
+               combination in template mode.
+ 13.09.2001  - Loooong time no change, but now I do at day X+2.
+               My best wishes to the victims of this terrible terror act
+               and to their friends and families!
+             - Created execution code (only a few lines...) in firewall.pl
+             - Executed first script, wow, loooots of bugs in the templates :-)
+               Wrote a script to remove them :-) Worked only prtially and so
+               had to edit most templates again by hand
+             - Changed parse_level, the policies-struct is now differnet, make
+               a hash of reference to hashes instead of a hash with two keys,
+               it is easier to iterate
+             - Changed change_level, Policies did not get written...
+             - Too stupid, used PREROUTING instead of POSTROUTING for
+               Masquerading rules. And used incoming instead of outgoing
+               interfaces. Now it should work.
+             - OK, I finally decided to make this version the first ALPHA of
+               the module. I just have to get it out!
+               Thank you to Joe Cooper (Swell Technologies) for sponsoring the
+               development of this module!
+
+ 
+ To do
+ ==============================================================================
+ - Cloning of chains, suggested by Chaim Krause <chaim.krause@webmethods.com>
+
+### END of CHANGES ###.

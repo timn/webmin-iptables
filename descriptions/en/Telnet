@@ -1,0 +1,3 @@
+Telnet is weak and absolutely insecure. It should not be used any more. But
+since some stupid admins still use it this template is included for
+completeness.

@@ -1,0 +1,53 @@
+<header>IPchains Firewalling - Editing a Chain</header>
+
+This file describes the editing of chains in this module.<P>
+
+First, you surely want to know, what all those columns in the
+table are good for, so here you are:<BR><BR>
+
+<U>Source</U><BR>
+As you may guess, this column represents the source address, a
+packet comes from. The following port column is the source port.
+
+<BR><BR><U>Destination</U><BR>
+The destination of a packet. For example you want http to go
+through but to block ftp. All those warez servers...
+
+<BR><BR><U>Protocol</U><BR>
+This is the protocol the packet is sent in. The usual types are
+TCP or UDP, often also ICMP for pings, traceroute and some
+net watchers to check the availability of your servers. You may
+want to leave specific packets through, but others not. Note,
+that the protocol does not mean the high level protocols like
+http or ftp but the low level netlink protocols.
+
+<BR><BR><U>Interface</U><BR>
+This defines the interface, the rule applies for. For input
+packets this is the device they came in on, the interface
+for forward and output packets is the device they will leave on.
+Perhaps there is one "trusted" interface which is allowed to
+deliver all packets, but another (connected perhaps to the
+internet) is only allowed to deliver specific packages...
+
+<BR><BR><U>S (SYN-Bit)</U><BR>
+Indicates, whether the SYN-Bit for packets must be set, must not
+be set or it may be set.<BR>
+If it must be set there is a X, if it must not be set there is
+a ! and if it may be set there is nothing.
+
+<BR><BR><U>F (Fragment)</U><BR>
+Matches the second through the last fragment of a fragmented packet.
+No ports may be specified.
+If it must be set there is a X, if it must not be set there is
+a ! and if it may be set there is nothing.
+
+<BR><BR><U>L (Logging)</U><BR>
+If set (X) packet is logged.
+
+<BR><BR><U>TOS (Type Of Service)</U><BR>
+ipchains can change the TOS of a packet. To do this there are several
+possible values. This is shown in this column.
+
+
+<hr>
+

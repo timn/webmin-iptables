@@ -1,0 +1,2 @@
+Some installations still use rhosts based authentication for SSH. So this is
+included here for completeness.

@@ -1,0 +1,9 @@
+mode=1
+fwtype=router
+conffile=
+intdev=
+bootloc=
+iptables_path=
+proto_file=
+hostsfile=
+netifaces=

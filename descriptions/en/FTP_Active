@@ -1,0 +1,5 @@
+FTP is the File Transfer Protocol. It is used to transfer files, its most
+common use is to upload files to your website.
+Active FTP needs the ip_conntrack_ftp kernel module to be loaded because
+FTP was not really designed for secure environments and so is a little bit
+complicated.

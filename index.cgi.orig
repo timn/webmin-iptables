@@ -1,0 +1,396 @@
+#!/usr/bin/perl
+#
+#    IPchains Firewalling Webmin Module
+#    Copyright (C) 1999 by Tim Niemueller
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+
+#    Created  : 20.09.1999
+
+#    Changes and To Do are now in the file CHANGES
+
+require "./ipchains-lib.pl";
+
+if (! $bootdir) {
+  # Could not find init dir (tried the init module), ask for it
+
+    &header($text{'index_title'}, undef, "index_boot", 1, 1, undef,
+            "Written by<BR><A HREF=mailto:tim\@niemueller.de>Tim Niemueller</A>".
+            "<BR><A HREF=http://www.niemueller.de>Home://page</A>");
+    print "<HR><BR>\n",
+          "<H3>$text{'index_bootnotdef'}</H3>\n",
+          $text{'index_desc_bootdef'},
+          "<FORM ACTION=\"save_config.cgi\" METHOD=post>",
+          $text{'index_dir'},
+          ": <INPUT TYPE=text NAME=bootloc>",
+          &file_chooser_button('bootloc', 1),
+          "<BR><INPUT TYPE=submit NAME=save VALUE=\"$text{'index_saveinitdir'}\"></FORM>";
+
+    print "<HR>\n";
+    &footer("/", $text{'index_return'});
+
+
+} elsif (! $config{'scriptfile'}) {
+    # Scriptfile location is not set in the config, ask for it
+
+    &header($text{'index_title'}, undef, "index_sf", 1, 1, undef,
+            "Written by<BR><A HREF=mailto:tim\@niemueller.de>Tim Niemueller</A>".
+            "<BR><A HREF=http://www.niemueller.de>Home://page</A>");
+    print "<HR><BR>\n",
+          "<H3>$text{'index_sfnotdef'}</H3>\n",
+          $text{'index_desc_sfdef'},
+          "<FORM ACTION=\"save_config.cgi\" METHOD=post>",
+          $text{'index_scriptfile'},
+          ": <INPUT TYPE=text NAME=scriptfile VALUE=\"$bootdir/firewall\" SIZE=30>",
+          "<BR><INPUT TYPE=submit NAME=save VALUE=\"$text{'index_savesf'}\"></FORM>";
+
+    print "<HR>\n";
+    &footer("/", $text{'index_return'});
+
+
+} elsif (! -e $config{'scriptfile'}) {
+
+  &create_basic_script($config{'scriptfile'});
+  open(SCRIPT, ">>$config{'scriptfile'}");
+    print SCRIPT "##MODE 1\n",
+                 "##LEVEL DISABLED\n",
+                 "##FWTYPE ", uc($config{'fwtype'}), "\n",
+                 "\n\n$ipchains -P input ACCEPT\n",
+                 "$ipchains -P output ACCEPT\n",
+                 "$ipchains -P forward ACCEPT\n\n";  
+
+  close(SCRIPT);
+
+  # Now make it safe (owned by root, permissions 700) and executable
+  chown 0, 0, $config{'scriptfile'};
+  chmod 0700, $config{'scriptfile'};
+  
+
+  &redirect("/ipchains");
+
+} elsif ((($config{'mode'} == 1) || ($config{'mode'} == 2)) && ! ($config{'intdev'} && $config{'extdev'})) {
+    # internal and external interface not yet defined, do that!
+    
+    my $intdev_select=&get_iface_select(0, "intdev");
+    my $extdev_select=&get_iface_select(0, "extdev");
+
+    &header($text{'index_title'}, undef, "index_ifaces", 1, 1, undef,
+           "Written by<BR><A HREF=mailto:tim\@niemueller.de>Tim Niemueller</A>".
+           "<BR><A HREF=http://www.niemueller.de>Home://page</A>");
+
+    print "<HR><BR>\n",
+          "<H3>$text{'index_devnotdef'}</H3>\n",
+          $text{'index_desc_devdef'},
+          "<FORM ACTION=\"save_config.cgi\" METHOD=post>",
+          "<TABLE BORDER=0><TR><TD>",
+          $text{'index_intdev'},
+          ":</TD>\n<TD>$intdev_select</TD></TR><TR><TD>",
+          $text{'index_extdev'},
+          ":</TD>\n<TD>$extdev_select</TD></TR><TR><TD>&nbsp;</TD><TD>",
+          "<INPUT TYPE=submit NAME=save VALUE=\"$text{'index_saveifaces'}\">",
+          "</TD></TR></TABLE></FORM>";
+
+    print "<HR>\n";
+    &footer("/", $text{'index_return'});
+
+} elsif ($config{'extdev'} && ! defined($extdhcp)) {
+  # User selected that we should determine whether external device runs
+  # DHCP or not on our own, this failed, maybe Network Configuration Module
+  # dows not work properly on this system or does not support it
+
+    &header($text{'index_title'}, undef, "index_extdhcp", 1, 1, undef,
+           "Written by<BR><A HREF=mailto:tim\@niemueller.de>Tim Niemueller</A>".
+           "<BR><A HREF=http://www.niemueller.de>Home://page</A>");
+
+    print "<HR><BR>\n",
+          "<H3>$text{'index_dhcpnotdef'}</H3>\n",
+          $text{'index_desc_dhcpdef'},
+          "<FORM ACTION=\"save_config.cgi\" METHOD=post>",
+          "$text{'index_extdhcp'}: ",
+          "<INPUT TYPE=radio NAME=extdhcp VALUE=2> $text{'yes'} ",
+          "<INPUT TYPE=radio NAME=extdhcp VALUE=3 CHECKED> $text{'no'} ",
+          "<INPUT TYPE=submit NAME=save VALUE=\"$text{'index_saveextdhcp'}\">",
+
+    print "<HR>\n";
+    &footer("/", $text{'index_return'});
+
+
+} elsif ( (($config{'mode'} == 1) || ($in{'mode'} eq 'newbie')) &&
+         ($in{'mode'} ne 'template') &&
+         ($in{'mode'} ne 'expert')) {
+    # Newbie mode
+
+    &header($text{'index_title'}, undef, "newbie", 1, 1, undef,
+           "Written by<BR><A HREF=mailto:tim\@niemueller.de>Tim Niemueller</A>".
+           "<BR><A HREF=http://www.niemueller.de>Home://page</A>");
+    &fill_tokens();
+    print "<CENTER>\n<FONT SIZE=+2>",
+          ($config{'fwtype'} eq 'router') ? $text{'index_router'} : '',
+          ($config{'fwtype'} eq 'personal') ? $text{'index_personal'} : '',
+          "</FONT>\n<BR><HR>\n";
+
+    my %set=();
+    my $mode=undef;
+    my $level=undef;
+    
+    open(SCRIPT, "$config{'scriptfile'}") || print "FAILED to open script file";
+      while(<SCRIPT>) {
+        $mode = $1 if (/^##MODE (\d){1}/);
+        $fwtype = $1 if (/^##FWTYPE (ROUTER|PERSONAL){1}/);
+        $level = $1 if (/^##LEVEL (LOW|MEDIUM|HIGH|DISABLED|FULL){1}/);
+      }
+    close(SCRIPT);
+
+    if (defined($level) || ($in{'select'} eq 'default')) {
+
+      print "<TABLE BORDER=0 CELLPADDING=10>\n<TR>";
+
+      %colors=( disabled => "FF0000",
+                low      => "FF0000",
+                medium   => "FFFF00",
+                high     => "00FF00",
+                full     => "00FF00"
+                );
+
+      foreach ('disabled', 'low', 'medium', 'high', 'full') {
+
+        print "<TD ALIGN=center WIDTH=100>",
+        (($mode == 1) && ($level eq uc) && (uc($config{'fwtype'}) eq $fwtype)) ?
+                     "<TABLE BORDER=0 BGCOLOR=#$colors{$_} NOWRAP><TR><TD>" .
+                     "<TABLE BORDER=0 BGCOLOR=white><TR><TD>"
+                     : "<A HREF=\"change_level.cgi?level=$_\">",
+              "<IMG SRC=\"images/$_.gif\" BORDER=0>",
+        (($mode == 1) && ($level eq uc) && (uc($config{'fwtype'}) eq $fwtype)) ?
+                     "</TD></TR></TABLE></TD></TR></TABLE></TD>" : "</A></TD>";
+      }
+
+      print "</TR></TABLE></CENTER>",
+            "<A HREF=\"?mode=template\">$text{'index_customize'}</A>",
+            "<BR>\n";
+    } else {
+      # We are in Newbie mode, but a customized firewall is installed
+      # This may be a template or expert firewall
+      print "<BR><H3>$text{'index_customlevel'}</H3><BR>\n",
+            "<TABLE BORDER=0>\n<TR>",
+            "<TD><A HREF=\"?mode=template\">$text{'index_customize'}</A></TD>",
+            "<TD>&nbsp; &nbsp; &nbsp;</TD>",
+            "<TD><A HREF=\"?mode=newbie&select=default\">",
+            "$text{'index_default'}</A></TD></TR></TABLE><BR><BR><BR>";
+    }
+
+    print "<DIV ALIGN=right><FONT FACE=\"Arial,helvetica\" COLOR=\"#505050\">[ $version ] </FONT></DIV>\n",
+          "<HR></CENTER>\n";
+    &footer("/", $text{'index_return'});
+
+
+
+} elsif ( (($config{'mode'} == 2) || ($in{'mode'} eq 'template')) &&
+         ($in{'mode'} ne 'newbie') &&
+         ($in{'mode'} ne 'expert')) {
+
+  # Template mode
+
+  &header($text{'index_title'}, undef, "template", 1, 1, undef,
+         "Written by<BR><A HREF=mailto:tim\@niemueller.de>Tim Niemueller</A>".
+         "<BR><A HREF=http://www.niemueller.de>Home://page</A>");
+  print "<HR><BR>\n";
+
+
+  my %miniserv;
+  &get_miniserv_config(\%miniserv);
+  my %templates=();
+  opendir(TEMPLATES, "$miniserv{'root'}/$module_name/templates") || print "FAILED to open template dir";
+    while($_ = readdir(TEMPLATES)) {
+      next if (/^\./);
+      next if (! /-(inout|infw|outin|outfw|fwin|fwout)$/);
+      /^(\S+){1}-(inout|infw|outin|outfw|fwin|fwout)?$/;
+      $templates{$1}->{$2}++;
+    }
+  closedir(TEMPLATES);
+
+  my %set=();
+  my $mode=undef;
+  my $masq=undef;
+  open(SCRIPT, "$config{'scriptfile'}") || print "FAILED to open script file";
+    while(<SCRIPT>) {
+      chomp;
+      $mode = $1 if (/^##MODE (\d){1}/);
+      $masq = 1 if (/^##MASQ$/);
+      next if (! /^##=> (\S+)?-(inout|infw|outin|outfw|fwin|fwout)?$/);
+      $set{$1}->{$2}++;
+    }
+  close(SCRIPT);
+
+
+  print "<FORM ACTION=template_save.cgi METHOD=post>\n",
+        "<TABLE BORDER=0 WIDTH=100%>\n<TR>\n",
+        "<TD><B>$text{'index_templname'}</B></TD>\n",
+        "<TD><B>$text{'index_infw'}</B></TD>\n",
+        "<TD><B>$text{'index_inout'}</B></TD>\n",
+        "<TD><B>$text{'index_outfw'}</B></TD>\n",
+        "<TD><B>$text{'index_outin'}</B></TD>\n",
+        "<TD><B>$text{'index_fwin'}</B></TD>\n",
+        "<TD><B>$text{'index_fwout'}</B></TD>\n",
+        "</TR>\n";
+
+  for (sort (keys %templates)) {
+     my $t;
+     my $name = $_;
+     $name =~ s/\./-/g;
+     print "<TR><TD>$name</TD>";
+     foreach $t (infw, inout, outfw, outin, fwin, fwout) {
+        my $checked = ($set{$_}->{$t}) ? "CHECKED" : "";
+        print "<TD>",
+              ($templates{$_}->{$t}) ? "<INPUT TYPE=checkbox NAME=\"$_-$t\" VALUE=1 $checked> $text{'index_activate'} ".
+              "(<A onClick='window.open(\"desc.cgi?ruleset=$_-$t\", \"help\", ".
+              "\"toolbar=no,menubar=no,scrollbars=yes,width=400,height=300,resizable=yes\"); ".
+              "return false' href=\"desc.cgi?ruleset=$_-$t\">$text{'index_desc'}</A>)" : "N/A";
+           "</TD>";
+     }
+     print "</TR>\n";
+  }
+
+
+  print "</TABLE><BR>",
+        "$text{'index_chkbx_desc'}<BR><BR>\n",
+        "<INPUT TYPE=checkbox VALUE=1 NAME=masq ",
+        ($masq) ? "CHECKED" : "",
+        "> $text{'index_tmpl_masq'} ",
+        "(<A onClick='window.open(\"desc.cgi?ruleset=Masquerading-desconly\", \"help\", ".              "\"toolbar=no,menubar=no,scrollbars=yes,width=400,height=300,",
+        "resizable=yes\"); return false' href=\"desc.cgi?ruleset=Masquerading-desconly\">",
+        "$text{'index_desc'}</A>)<BR><BR>\n",
+        "<INPUT TYPE=submit NAME=save VALUE=\"$text{'index_templ_save'}\">",
+        "</FORM>\n",
+        "<DIV ALIGN=right><FONT FACE=\"Arial,helvetica\" COLOR=\"#505050\">",
+        "[ $version ] </FONT></DIV>\n",
+        "<HR>\n";
+  &footer("/", $text{'index_return'});
+
+
+
+} else {
+  # Expert Mode
+
+  &header($text{'index_title'}, undef, "expert", 1, 1, undef,
+         "Written by<BR><A HREF=mailto:tim\@niemueller.de>Tim Niemueller</A>".
+         "<BR><A HREF=http://www.niemueller.de>Home://page</A>");
+  print "<HR><BR>\n";
+
+
+  @ps=&parse_script();
+  $chains=&find_arg_struct('-N', \@ps);
+
+  $dp=&find_arg_struct('-P', \@ps);
+  foreach $l (@{$dp}) {
+    $p=&find_arg('-P', $l);
+    if ($p->{'value1'} =~ /input/i ) {
+       $ipol=$p->{'value2'};
+    } elsif ($p->{'value1'} =~ /output/i ) {
+       $opol=$p->{'value2'};
+    } elsif ($p->{'value1'} =~ /forward/i ) {
+      $fpol=$p->{'value2'};
+    }
+  }
+  $ipol="ACCEPT" if (!$ipol);
+  $opol="ACCEPT" if (!$opol);
+  $fpol="ACCEPT" if (!$fpol);
+
+  foreach $l (@{$chains}) {
+    $c=&find_arg('-N', $l);
+    push(@images, "images/chain.other.gif");
+    push(@texts, $c->{'value'});
+    push(@links, "edit_chain.cgi?chain=$c->{'value'}");
+  }
+
+
+
+print <<EOM;
+<H3>$text{'index_standard'}</H3>
+
+<TABLE BORDER=0 WIDTH=100%>
+ <TR>
+  <TD ROWSPAN=2 ALIGN=right>
+   <TABLE BORDER>
+     <TR><TD><A HREF="edit_chain.cgi?chain=input"><IMG SRC="images/chain.input.gif" BORDER=0></A></TD></TR>
+   </TABLE>
+  </TD>
+  <TD><A HREF="edit_chain.cgi?chain=input">$text{'input'}</A></TD>
+  
+  <TD ROWSPAN=2 ALIGN=right>
+   <TABLE BORDER>
+     <TR><TD><A HREF="edit_chain.cgi?chain=output"><IMG SRC="images/chain.output.gif" BORDER=0></A></TD></TR>
+   </TABLE>
+  </TD>
+  <TD><A HREF="edit_chain.cgi?chain=output">$text{'output'}</A></TD>
+
+  <TD ROWSPAN=2 ALIGN=right>
+   <TABLE BORDER>
+     <TR><TD><A HREF="edit_chain.cgi?chain=forward"><IMG SRC="images/chain.forward.gif" BORDER=0></A></TD></TR>
+   </TABLE>
+  </TD>
+  <TD><A HREF="edit_chain.cgi?chain=forward">$text{'forward'}</A></TD>
+ </TR>
+ <TR>
+  <TD>$text{'index_standpol'}: $ipol</TD>
+  <TD>$text{'index_standpol'}: $opol</TD>
+  <TD>$text{'index_standpol'}: $fpol</TD>
+ </TR>
+</TABLE>
+<HR>
+
+EOM
+
+print "<H3>$text{'index_userdef'}</H3>";
+if (!@links) { print "<B>$text{'index_noudef'}</B><BR><BR>" }
+else { &icons_table(\@links, \@texts, \@images, 5) }
+
+print <<EOM;
+
+<HR>
+<TABLE BORDER=0 CELLSPACING=3 CELLPADDING=0 WIDTH=100%>
+ <TR>
+  <TD ALIGN=center>
+   [ <A HREF="create_chain.cgi">$text{'index_chaincreate'}</A> ]
+  </TD>
+  <TD ALIGN=center>
+   [ <A HREF="list_hosts.cgi">$text{'index_list'}</A> ]
+  </TD>
+  <TD ALIGN=center>
+   [ <A HREF="exec_script.cgi">$text{'index_exec'}</A> ]
+  </TD>
+  <TD ALIGN=right ROWSPAN=2>
+   <FONT FACE="Arial,helvetica" COLOR="#505050">[ v$version ] </FONT>
+  </TD>
+ </TR>
+ </TR>
+ <TR>
+  <TD ALIGN=center>
+   [ <A HREF="script_manager.cgi">$text{'index_scriptman'}</A> ]
+  </TD>
+  <TD ALIGN=center>
+   [ <A HREF="import.cgi">$text{'index_import'}</A> ]
+  </TD>
+  <TD ALIGN=center>
+   [ <A HREF="rawedit.cgi">$text{'index_rawedit'}</A> ]
+  </TD>
+</TABLE>
+
+
+EOM
+
+  print "<HR>\n";
+  &footer("/", $text{'index_return'});
+
+}
+
+
+
+### END of index.cgi ###.

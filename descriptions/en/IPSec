@@ -1,0 +1,3 @@
+IPSec is IP Security. An enhancement to IP for encrypted and authenticated
+connections. This template allows ESP and AH protocols to pass and connections
+between IKE-servers.

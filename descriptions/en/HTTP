@@ -1,0 +1,5 @@
+HTTP is the HyperText Transport Protocol. It is used to deliver your websites
+and it is basically the "Web traffic language". You proably want to allow this
+protocol. It is pretty secure for itself but the content you transmit is not
+secured. A lot of security holes have been discovered in browsers so you may
+want to secure your machines itself with a anti virus tool.

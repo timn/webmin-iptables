@@ -1,0 +1,3 @@
+HTTPS is the HyperText Transport Protocol with SSL encryption. All data is
+encrypted on its way from the server to the client. So it secures the content
+against sniffing while travelling.

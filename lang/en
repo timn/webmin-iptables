@@ -1,0 +1,318 @@
+
+lang=en
+author=Tim Niemueller <tim@niemueller.de>
+homepage=http://www.niemueller.de
+copyright=(C) 2001 by Tim Niemueller <tim@niemueller.de>
+license=GPL
+
+config_link=Check <A HREF=/config.cgi?iptables>Module Configuration</A>
+
+index_title=IPtables Firewall
+
+index_cfnotdef=Configuration file not defined
+index_desc_cfdef=The configuration file is not yet defined. That is the file where this module will store the information about your firewall. A good idea is /etc/iptfw.conf.
+index_conffile=Path to config file
+index_devnotdef=Network Devices not yet defined
+index_fwfile=Firewall script has not been copied
+index_desc_devdef=You have not yet defined what kind of interface each device is. You now need to define what the interface should be supposed to do. You have to define at least one internal interface and at least one external oder Internet interface. Below you see what the types mean.
+index_desc_internal=<B>Internal</B> Interface is an interface that connects to your (whole or part of) LAN.
+index_desc_external=An <B>external</B> interface connects to a specified (fixed, not changing IPs) network that is assumed to have an unknown security grade (it may be your best friend but it may also be your worst enemy)
+index_desc_dmz=<B>DMZ</B>, <I>D</I>e<I>m</I>ilitarized <I>Z</I>one. That is a part of your network that is in front of the firewall and so not secured by it. Usually Webservers etc. are put there to minimize the incoming traffic to the LAN. You can choose special guidelines for the traffic from this network. For example if you may want to allow it the local clients to use it as their mailserver.
+index_desc_internet=<B>Internet</B>, a network that has a fixed or dynamic IP. It is always assumed to be as hostile as "Big Brother Bill" himself.
+index_desc_vpn=<B>Virtual Private Network</B>: An encrypted network tunnel to another network. This is basically a specially routed external Network. It will be handled like an external network.
+index_desc_ignore=<B>Ignore</B>: Do not care about it in the firewall configuration. The network traffic on this interface is not secured. This may be a really big hole in your firewall depending on the connections on this interface. You should only put the needed interfaces into a firewall box!
+index_desc_fwfile=The "translator" script firewall.pl has not yet been copied to your bootdir. This is needed to execute the firewall rules stored in the configuration file.
+index_copyfwfile=Copy the script
+index_internal=Internal
+index_external=External
+index_dmz=DMZ
+index_internet=Internet
+index_vpn=Virtual Private Network
+index_ignore=Ignore
+index_ifnotdef=Network Interfaces not detected
+index_desc_ifdef=Cannot use the Network Configuration module to detect your network devices. It seems that your Linux distribution is not supported by the module or the module is not installed. Please enter below a comma (,) separated list of network interfaces (for example "eth0,eth1,ippp0").
+
+index_short_fw=FW
+index_short_internal=Intern
+index_short_external=Extern
+index_short_internet=Internet
+index_short_dmz=DMZ
+index_short_vpn=VPN
+
+index_router=Router Firewall
+index_personal=Personal Firewall
+index_customize=Customize...
+index_customlevel=You are running a customized Firewall
+index_default=Switch to a default level...
+
+index_templname=Name
+index_desc=Description
+index_activate=Activate
+index_tmpl_masq=Enable Masquerading support
+index_novalcombs=No valid interface combinations for template mode.
+
+index_filter=Filter Table
+index_nat=NAT Table
+index_udef_filter=User defined chains in filter table
+index_udef_nat=User defined chains in NAT table
+index_std_filter=Builtin chains in filter table
+index_std_nat=Builtin chains in NAT table
+
+index_standpol=Standard Policy
+index_noudef=No user defined chains found
+
+index_chaincreate=Create a new Chain
+index_list=List Hosts/Nets
+index_scriptman=Manage Script
+index_import=Import current Setup
+index_rawedit=Edit file manually
+index_exec=Enable Configuration
+
+
+index_nbreturn=newbie mode
+index_return=webmin index
+
+
+target_ACCEPT=ACCEPT
+target_DROP=DROP
+
+chain_INPUT=Input
+chain_OUTPUT=Output
+chain_FORWARD=Forward
+chain_PREROUTING=Pre-Routing
+chain_POSTROUTING=Post-Routing
+
+lib_err_nosupport=Either the /proc filesystem does not exist or iptables is not supported by your kernel. Maybe you have to load the ip_tables module (insmod ip_tables)? Or do you have an 2.2.x or earlier kernel version?
+lib_err_sfcm=You have not entered a script file. It is needed because all rules will be written with the appropriate directives into this script file. $1
+lib_err_sfmiss=The script file $1 you entered in the <A HREF=../config.cgi?iptables>module configuration</A> does not exist. After you created it come back and all works properly. This is a normal configuration step and not an real error, but one step ahead to a working IPchains Module installation!
+lib_noinit=Could not find your init directory. You have to set it manually. $1.
+lib_needmodernperl=This module needs a newer version of Perl (at least $1). Please upgrade your Perl and try again.
+lib_err_netmod=Cannot detect network interfaces. Please set in the $1
+lib_parseerror=Syntax error in the config file in line $1
+lib_any=Any
+lib_anydev=Any Device
+lib_icmptsel=ICMP-Type Selection
+lib_err_iptables=File $1 does not exist or is not executable. $2
+lib_tosnotset=Not Set (0x00)
+lib_tosmindel=Minimum Delay (0x10)
+lib_tosmaxthr=Maximum Throughput (0x08)
+lib_tosmaxrel=Maximum Reliability (0x04)
+lib_tosmincost=Minimum Cost (0x02)
+lib_ignore=Ignore
+lib_err_create=Cannot create file $1
+lib_err_host=Host file $1 does not exist
+lib_err_nolevelfile=Sorry, there is no definition file for this security level.
+lib_err_ndeffwtype=Sorry, the firewall type $1 is not defined in level $2.
+lib_err_notemplfile=Sorry, no template available for this protocol.
+
+clev_title=Security Level
+clev_err_wrong=The security level you selected is not available.
+clev_heading=Change Security Level for <I>$1</I>
+clev_desc_low=This will change your security level to <FONT COLOR=#FF0000>low</FONT>.
+clev_desc_medium=This will change your security level to <FONT COLOR=#FFD700>medium</FONT>.
+clev_desc_high=This will change your security level to <FONT COLOR=#00FF00>high</FONT>.
+clev_desc_disabled=This will <FONT COLOR=#FF0000>disable</FONT> your firewall. You will no longer be secured. Any passing packets will be accepted. If forwarding is enabled all packets get forwared without filtering.
+clev_desc_full=Your system will <FONT COLOR=#00FF00>batten down the hatches</FONT>. All traffic coming to your system or trying to pass your system will be unanswered dropped. Maybe useful if there is a known security problem on the net and you want to protect your systems.
+clev_prot=Protocol
+clev_dirs=Allowed Directions
+clev_nocons=No connections are allowed in this security level (Loopback traffic will work anyway).
+clev_disabled_masq=Masquerading support is not available in DISABLED level
+clev_low_masq=<INPUT TYPE=checkbox NAME=masq VALUE=1 CHECKED> Enable Masquerading support from inside networks to the internet
+clev_medium_masq=<INPUT TYPE=checkbox NAME=masq VALUE=1> Enable Masquerading support from inside networks to the internet
+clev_high_masq=<INPUT TYPE=checkbox NAME=masq VALUE=1> Enable Masquerading support from inside networks to the inside network
+clev_full_masq=Masquerading support is not available in FULL security level
+clev_enable=Enable firewall configuration immediately. Please don't use it when using the module for the first time on a remote system since you may be locked out when problems occur!
+clev_change=Yes, change security level
+clev_return=level selection
+clev_err_write=Failed to create script file!
+
+
+echain_title=Edit Chain
+
+echain_standpol=Standard Policy
+echain_spchange=Change
+
+echain_source=Source
+echain_port=Port
+echain_dest=Destination
+echain_proto=Protocol
+echain_inif=Interface IN
+echain_outif=Interface OUT
+echain_target=Target
+echain_action=Action
+echain_norules=No rules found for this chain.
+echain_any=Any
+echain_edit=Edit
+echain_disable=Disable
+echain_enable=Enable
+echain_delete=Delete
+echain_clone=Clone
+echain_insert=Insert rule after current
+echain_up=Up
+echain_down=Down
+echain_newrule=Insert a new rule
+echain_return=module index
+
+erule_title_edit=Edit Rule
+erule_title_append=Append Rule
+erule_title_insert=Insert Rule
+erule_desc_edit=Edit rule from chain '$1' (table '$2')
+erule_desc_create=Append new rule to chain '$1' (table '$2')
+erule_desc_insert=Insert rule into chain '$1' (table '$2')
+erule_source=Source
+erule_dest=Destination
+erule_proto=Protocol
+erule_iface=Interface
+erule_hostnet=Host/Net
+erule_target=Target
+erule_nojump=No jump
+erule_port=Port
+erule_flags=Flags
+erule_icmptype=ICMP Type (ignored if not icmp above)
+erule_tos=TOS
+erule_syn=SYN-Bit
+erule_insyn=Inverse SYN-Bit
+erule_frag=Fragment
+erule_infrag=Inverse Fragment
+erule_log=Log Packet
+erule_reset=Reset
+erule_save=Save Rule
+erule_insert=Insert Rule
+erule_append=Append Rule
+erule_return=edit chain <I>'$2'</I> in table <I>'$1'</I>
+erule_incoming=Incoming
+erule_outgoing=Outgoing
+erule_basic=Basic Match Information
+erule_extended=Extended Match Information
+erule_fragment=Fragmentation
+erule_macsource=MAC Source
+erule_tcpflags=TCP Flags
+erule_setflags=Set
+erule_unsetflags=UNset
+erule_tcpf_all=All
+erule_tcpf_none=None
+erule_tcpf_selected=Selected
+erule_limit=Limits
+erule_limitrate=Limit Rate
+erule_limitburst=Limit Burst
+erule_limitrateperiod_second=Second
+erule_limitrateperiod_minute=Minute
+erule_limitrateperiod_hour=Hour
+erule_limitrateperiod_day=Day
+erule_uid=User ID (UID)
+erule_gid=Group ID (GID)
+erule_pid=Process ID (PID)
+erule_sid=Session ID (SID)
+erule_mark_valuemask=Value / Mask
+erule_state=State
+erule_mark=Mark
+erule_owner=Match by traffic owner
+erule_logging=Packet Logging
+erule_logwarn=Remember: If logging is set to 'Yes' the target is automatically 'LOG'!
+erule_loglevel=Log Level
+erule_logprefix=Prefix
+erule_extendedlog=Extended Logging Items
+erule_log_tcpseq=TCP Sequence
+erule_log_tcpopt=TCP Options
+erule_log_ipopt=IP Options
+erule_dolog=Log?
+erule_modtar=Packet Modification and Target
+erule_setmark=Set Mark
+erule_na=N/A
+erule_settos=Set TOS
+erule_rejtype=Reject with ICMP Type
+erule_err_invstatus=Invalid status. Must be YES or NO!
+erule_=
+erule_=
+
+srule_error=Saving of rule failed
+srule_err_acl=You are not allowed to create rules.
+srule_err_acl2=You are not allowed to edit rules.
+srule_err_notable=No table given to edit!
+srule_err_nochain=No chain given to edit!
+srule_portproto=If you define a port for source or as destination you have to set protocol to TCP or UDP!
+srule_invport=The source or destination port is invalid. Either use a numeric port value or a well known service name that is in the service configuration file of the system.
+srule_invproto=The protocol you defined is not in the system wide protocol list.
+srule_icmptype=The selected ICMP type is not known by iptables.
+srule_invdev=One of the selected devices is invalid (= not configured in the configuration file).
+
+cpol_title=Change Policy
+cpol_err_builtin=Standard policy can only be changed for built-in chains
+cpol_pol=Standard policy for chain <I>'$1'</I> in table <I>'$2'</I>
+cpol_return=edit chain <I>'$1'</I> in table <I>'$2'</I>
+
+spol_invch=Standard policy can only be changed for built-in chains
+
+mrule_err_norule=No rule to edit!
+mrule_err_nochain=No chain to edit!
+mrule_err_notable=No table to edit!
+mrule_err_acl=You are not allowed to move rules.
+mrule_err_invdir=Missing or invalid direction (must be up or down).
+mrule_err_top=This rule cannot be moved <I>up</I> because it is already the first rule in this chain.
+mrule_err_last=This rule cannot be moved <I>down</I> because it is already the last rule in this chain.
+mrule_err_line=Cannot determine the line number of this rule. It seems that this rule is invalid (Error Code $1).
+mrule_crit_noidx=Critical: The rule is not in the current table and chain! Aborting.
+mrule_err_acl=You are not allowed to edit rules.
+
+crule_err_norule=No rule to clone!
+crule_err_nochain=No chain to clone!
+crule_err_notable=No table to clone!
+crule_err_acl=You are not allowed to clone rules.
+
+drule_err_norule=No rule to delete!
+drule_err_nochain=No chain to delete!
+drule_err_notable=No table to delete!
+drule_err_acl=You are not allowed to delete rules.
+
+chain_title=Create Chain
+cchain_err_nochain=No chain to create!
+cchain_err_acl=You are not allowed to create chains.
+cchain_err_already=The chain '$1' does already exist in table '$2'!
+cchain_table=Table
+cchain_name=Name
+cchain_createbut=Create
+cchain_heading=Create new chain
+cchain_return=module index
+
+rawedit_title=Edit Raw File
+rawedit_index=Edit raw file
+rawedit_undo=Undo Changes
+rawedit_desc=Use the text box below to manually edit the script file.
+rawedit_return=module index
+
+lhosts_title=List Hosts
+lhosts_etc=Hosts from /etc/hosts
+lhosts_names=Name(s)
+lhosts_edit=Edit
+lhosts_delete=Delete
+lhosts_nud=No user defined hosts found
+lhosts_add=Add a new Host/Network
+lhosts_ip=IP
+lhosts_names2=Names
+lhosts_but_create=Create
+lhosts_usrdef=User-defined Hosts/Nets
+lhosts_return=module index
+
+shost_err_invip=Not a valid IP
+shost_err_invnetmask=Not a valid Netmask
+shost_err_invname=Not a valid Name
+shost_err_nohost=No such host
+shost_err_acl=You are not allowed to edit hosts
+shost_err_acl2=You are not allowed to create hosts
+
+ehost_err_nohost=No host given to edit
+ehost_err_nodb=Host dbase not found.
+ehost_err_notfound=No host '$1' found.
+ehost_err_acl=You are not allowed to edit hosts.
+ehost_title=Edit Host
+ehost_header=Edit Host/Network
+ehost_names=Names
+ehost_ip=IP
+ehost_save=Save
+ehost_return=host list
+
+desc_title=Description
+desc_err_notfound=No description for the given ruleset.
+desc_close=Close
+
+stm_err_invcomb=Invalid device combination given.
